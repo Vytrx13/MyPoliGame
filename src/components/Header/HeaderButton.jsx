@@ -19,11 +19,11 @@ const Button = styled.button`
   }
 `
 
-export default function HeaderButton({ children }) {
+export default function HeaderButton({ children, onSelect }) {
 
   return (
     <li>
-      <Button>
+      <Button onClick={onSelect}>
         {children}
       </Button>
     </li>
