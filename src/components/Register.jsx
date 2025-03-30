@@ -1,24 +1,22 @@
 import { useState } from "react";
 
-function Login({ setUser }) {
+function Register({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const login = async () => {
+  const register = async () => {
     try {
       console.log(username, password);
-      const res = await fetch("http://localhost:3001/auth/login", {
+      const res = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      console.log(res);
 
       if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem("token", data.token);
         setUser(username);
+        alert("Usuário registrado com sucesso!");
       } else {
         const errorData = await res.json();
         setError(errorData.message || "Erro desconhecido");
@@ -31,6 +29,7 @@ function Login({ setUser }) {
 
   return (
     <div>
+        <p>criar conta</p>
       <input
         placeholder="Usuário"
         onChange={(e) => setUsername(e.target.value)}
@@ -40,10 +39,10 @@ function Login({ setUser }) {
         placeholder="Senha"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={login}>Entrar</button>
+      <button onClick={register}>Registrar</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
 
-export default Login;
+export default Register;

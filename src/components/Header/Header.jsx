@@ -1,6 +1,6 @@
 import "./Header.css";
 import HeaderButton from "./HeaderButton.jsx";
-export default function Header({logado, changePage}) {
+export default function Header({logado, changePage, usuario}) {
 
   return (
     <header>
@@ -12,8 +12,8 @@ export default function Header({logado, changePage}) {
           <HeaderButton>Pessoas</HeaderButton>
           <HeaderButton>Sobre</HeaderButton>
           {!logado && <HeaderButton onSelect={() => changePage("login")}>Fazer Login</HeaderButton>}
-          {!logado && <HeaderButton>Criar Conta</HeaderButton>}
-          {logado && <p>Bem vindo usuario!</p>}
+          {!logado && <HeaderButton onSelect={() => changePage("register")}>Criar Conta</HeaderButton>}
+          {logado && <p>Bem vindo {usuario}!</p>}
         </ul>
       </nav>
     </header>
