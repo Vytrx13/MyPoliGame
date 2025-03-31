@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const gamesRoutes = require('./routes/games'); // Importa as rotas de jogos
 
 const app = express();
 
@@ -13,8 +14,12 @@ app.use(cors());
 // Usar as rotas de autenticação
 app.use('/auth', authRoutes);
 
+
+app.use('/games', gamesRoutes); // Usa as rotas de jogos
+
+
 // Iniciar o servidor
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Backend rodando na porta ${PORT}`);
 });
