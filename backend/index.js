@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const gamesRoutes = require('./routes/games'); // Importa as rotas de jogos
+require('dotenv').config();
 
 const app = express();
 

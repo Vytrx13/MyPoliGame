@@ -1,0 +1,47 @@
+/* GamesContainer.css */
+.games-container {
+    margin-top: 2rem;
+}
+
+.games-title {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.game-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.game-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.game-name {
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.loading-message,
+.empty-message {
+    margin-top: 2rem;
+    text-align: center;
+}
