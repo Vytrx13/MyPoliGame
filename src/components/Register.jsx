@@ -38,6 +38,7 @@ function Register({ setUser }) {
         type="password"
         placeholder="Senha"
         onChange={(e) => setPassword(e.target.value)}
+        // onKeyDown={(e) => e.key === 'Enter' && register()} DEPOIS TESTAR
       />
       <button onClick={register}>Registrar</button>
       {error && <p style={{ color: "red" }}>{error}</p>}

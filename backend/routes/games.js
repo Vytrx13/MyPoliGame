@@ -44,4 +44,28 @@ router.post('/search', async (req, res) => {
     }
 });
 
+router.post('/game-selected', async (req, res) => {
+    const { gameId } = req.body;
+    console.log("gameID:", gameId);
+
+    const game_url = "https://www.giantbomb.com/api/game/"+gameId+"/?api_key="+api_key+"&format=json";
+    console.log('game_url: ', game_url);
+    try {
+        const response = await axios.get(game_url);
+        const gameData = response.data.results;
+
+        if (gameData.length === 0) {
+            return res.status(404).json({ message: 'Nenhum jogo encontrado.' });
+        }
+        // console.log(gameData.name); 
+        res.json(gameData);
+
+    } catch (error) {
+        console.error('Erro ao buscar dados da API externa:', error.message);
+        res.status(500).json({ error: 'Erro ao buscar dados da API externa.' });
+    }
+
+
+});
+
 module.exports = router;

@@ -6,12 +6,12 @@ export default function GamesContainer({ games, isLoading, onGameSelect }) {
         return <div className="loading-message">Carregando jogos...</div>;
     }
 
-    // Show nothing if games is null (initial state)
+    
     if (games === null) {
         return null;
     }
 
-    // Show "no games found" only after a search has been performed (games is empty array)
+    
     if (games.length === 0) {
         return <div className="empty-message">Nenhum jogo encontrado.</div>;
     }
@@ -28,7 +28,7 @@ export default function GamesContainer({ games, isLoading, onGameSelect }) {
                     >
                         {game.image && (
                             <img 
-                                src={game.image.thumb_url} 
+                                src={game.image.original_url } 
                                 alt={game.name}
                                 className="game-image"
                             />
