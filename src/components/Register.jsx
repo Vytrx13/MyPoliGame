@@ -17,9 +17,21 @@ function Register({ setUser }) {
       if (res.ok) {
         setUser(username);
         alert("Usuário registrado com sucesso!");
-      } else {
-        const errorData = await res.json();
-        setError(errorData.message || "Erro desconhecido");
+      } 
+      else {
+        switch (res.status) {
+          case 502:
+            setError("Usuário já existe!");
+            break;
+          case 501:
+            setError("Preencher os campos usuário e senha!");
+            break;
+          case 500:
+            setError("Erro interno do servidor");
+            break;
+          default:
+            setError("Erro desconhecido");
+        }
       }
     } catch (err) {
       setError("Erro ao conectar ao servidor");
