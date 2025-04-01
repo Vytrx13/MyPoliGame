@@ -23,7 +23,7 @@ export default function Search({ changePage }) {
         setError(null);
         
         try {
-            const res = await fetch("http://localhost:3001/games/search", {
+            const res = await fetch("/games/search", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ searchVal }),
@@ -69,7 +69,7 @@ export default function Search({ changePage }) {
         setError(null);
 
         try {
-            const res = await fetch("http://localhost:3001/games/game-selected", {
+            const res = await fetch("/games/game-selected", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ gameId }),
