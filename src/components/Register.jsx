@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Register({ setUser }) {
+function Register({ setUser, changePage }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -16,7 +16,8 @@ function Register({ setUser }) {
 
       if (res.ok) {
         setUser(username);
-        alert("Usuário registrado com sucesso!");
+        setError(null);
+        changePage("home");
       } 
       else {
         switch (res.status) {
@@ -50,7 +51,7 @@ function Register({ setUser }) {
         type="password"
         placeholder="Senha"
         onChange={(e) => setPassword(e.target.value)}
-        // onKeyDown={(e) => e.key === 'Enter' && register()} DEPOIS TESTAR
+        onKeyDown={(e) => e.key === 'Enter' && register()} 
       />
       <button onClick={register}>Registrar</button>
       {error && <p style={{ color: "red" }}>{error}</p>}

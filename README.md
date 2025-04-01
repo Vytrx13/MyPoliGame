@@ -19,6 +19,12 @@ $ npm i
 
 $ node index.js
 
+Usando Tailscale
+
+tailscale funnel 5173
+
+npm run dev -- --host 127.0.0.1
+
 
 
 

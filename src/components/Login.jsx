@@ -54,7 +54,7 @@ function Login({ setUser, changePage }) {
         type="password"
         placeholder="Senha"
         onChange={(e) => setPassword(e.target.value)}
-        // onKeyDown={(e) => e.key === 'Enter' && login()} DEPOIS TESTAR
+        onKeyDown={(e) => e.key === 'Enter' && login()}
       />
       <button onClick={login}>Entrar</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
