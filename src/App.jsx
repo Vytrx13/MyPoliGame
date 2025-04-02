@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 // pages
 import Home from './components/Home.jsx';
-import Login from './components/Login.jsx';
-import Register from './components/Register.jsx';
-import Search from './components/Search.jsx';
+import Login from './components/Auth/Login.jsx';
+import Register from './components/Auth/Register.jsx';
+import Search from './components/games/Search.jsx';
 
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
