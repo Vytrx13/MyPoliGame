@@ -16,6 +16,11 @@ export default defineConfig({
                  changeOrigin: true,
                  secure:false,
       },
+      '/listas': {
+        target: 'http://localhost:3001',
+                 changeOrigin: true,
+                 secure:false,
+      },
       
     },
     allowedHosts: true,

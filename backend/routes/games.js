@@ -9,13 +9,15 @@ const router = express.Router();
 // Configuração do Rate Limiter
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutos
-    max: 30, // Máximo de 30 requisições por IP
+    max: 60, // Máximo de 30 requisições por IP
     message: "Limite de requisições atingido. Tente novamente mais tarde.",
     headers: true, // Retorna headers informando o limite
 });
 
 // Aplica o rate limiter apenas nesta rota
 router.use('/search', limiter);
+
+router.use('/game-selected', limiter);
 
 const api_key = process.env.API_KEY; // Certifique-se de definir sua chave de API nas variáveis de ambiente
 

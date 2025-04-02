@@ -25,6 +25,26 @@ tailscale funnel 5173
 
 npm run dev -- --host 127.0.0.1
 
+queries q usei p criar tabelas
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE registro_lista (
+id SERIAL PRIMARY KEY,
+username VARCHAR(50) NOT NULL,
+tipo VARCHAR(20) NOT NULL,
+jogo_id INT NOT NULL,
+nome_jogo TEXT NOT NULL,
+url_imagem TEXT,
+rating INT
+);
+
+
+
 
 
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import GamesContainer from "./GamesContainer.jsx";
 import GameDetails from "./GameDetails.jsx";
 
-export default function Search({ changePage }) {
+export default function Search({ changePage, user }) {
     const [searchVal, setSearchVal] = useState("");
     const [games, setGames] = useState(null); // para search
     const [gameData, setGameData] = useState(null);
@@ -131,7 +131,7 @@ export default function Search({ changePage }) {
 
             {isGameSelected && <GameDetails 
                 game={gameData}
-
+                user={user}
             />}
         </div>
     );
