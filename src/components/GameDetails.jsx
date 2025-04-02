@@ -2,17 +2,39 @@ import React, { useState } from "react";
 import "./GameDetails.css";
 
 export default function GameDetails({ game, isLoading, user }) {
-    if (isLoading || !game) {
+  if (isLoading || !game) {
         return <div className="loading-message">Carregando jogo...</div>;
-      }
+  }
   const [selectedList, setSelectedList] = useState("");
   const [score, setScore] = useState("");
 
+  // const [currentList , setCurrentList] = useState(null);
+  // const [currentScore, setCurrentScore ] = useState(null);
+  // const [registroId, setRegistroId] = useState(null);
+// TODO: SE ESSE REGISTROID FOR DIFERENTE DE NULL POSSO GARANTIR Q JA EXISTE NA LISTA, ENT N PRECISA VERIFICAR
+// NO BACKEND SE EXISTE OU N
+// REFATORAR ESSA PARTE 
+// PARA FACILITAR EH MELHOR SEPARAR A RODA add em add e update
+// O useEffect EH CHAMADO QND O COMPONENTE EH CARREGADO, DA PRA VERIFICAR SE JA EXISTE NESSE PONTO
 
   const gameId = game.id;
   const gameName = game.name;
   const imageUrl = game.image ? game.image.original_url : "/default-game.png";
 
+  // useEffect(() => {
+  //   const checkGameInList = async () => {
+  //     if (!user) return; 
+  
+  //     try {
+  //       // procurar se ja existe e se ja existe, preciso do rating tipo e do registroId
+  //     } catch (err) {
+  //       setError("Erro ao verificar a lista do usuário.");
+  //       console.error(err);
+  //     }
+  //   };
+  
+  //   checkGameInList();
+  // }, []);
   
 
   const handleSelectChange = (event) => {
