@@ -10,13 +10,9 @@ export default function GameDetails({ game, isLoading, user }) {
 
   const [currentList, setCurrentList] = useState(null);
   const [currentScore, setCurrentScore] = useState(null);
-  const [registroId, setRegistroId] = useState(null);
+  const [jogoNaLista, setjogoNaLista] = useState(false);
 
-  // TODO: SE ESSE REGISTROID FOR DIFERENTE DE NULL POSSO GARANTIR Q JA EXISTE NA LISTA, ENT N PRECISA VERIFICAR
-  // NO BACKEND SE EXISTE OU N
-  // REFATORAR ESSA PARTE 
-  // PARA FACILITAR EH MELHOR SEPARAR A RODA add em add e update
-  // O useEffect EH CHAMADO QND O COMPONENTE EH CARREGADO, DA PRA VERIFICAR SE JA EXISTE NESSE PONTO
+  // TODO : Botar botao pra deletar o jogo da lista.
 
   const gameId = game.id;
   const gameName = game.name;
@@ -27,7 +23,7 @@ export default function GameDetails({ game, isLoading, user }) {
       if (!user) return;
 
       try {
-        // procurar se ja existe e se ja existe, preciso do rating tipo e do registroId
+        // procurar se ja existe e se ja existe, preciso do rating tipo e do jogoNaLista
         const res = await fetch("/listas/check-game-in-list", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -38,7 +34,7 @@ export default function GameDetails({ game, isLoading, user }) {
           const { tipo, rating, id } = await res.json();
           setCurrentList(tipo);
           setCurrentScore(rating);
-          setRegistroId(id);
+          setjogoNaLista(id > 0);
         } else {
           throw new Error(res.error);
         }
@@ -50,7 +46,7 @@ export default function GameDetails({ game, isLoading, user }) {
     };
 
     checkGameInList();
-  }, []);
+  }, [selectedList]);
 
 
   const handleSelectChange = (event) => {
@@ -72,6 +68,9 @@ export default function GameDetails({ game, isLoading, user }) {
         body: JSON.stringify({ user, selectedList, gameId, gameName, imageUrl, score }),
       });
       alert(`Jogo adicionado à lista: ${selectedList} com nota: ${score}`);
+      setCurrentList(selectedList);
+      setCurrentScore(score);
+      setjogoNaLista(true);
     } catch (err) {
       setError(err.message);
       alert("error:", err);
@@ -93,7 +92,8 @@ export default function GameDetails({ game, isLoading, user }) {
         <img src={imageUrl} alt={game.name} />
         <div className="game-info">
           {user !== null && <form onSubmit={handleSubmit}>
-            <label htmlFor="game-list">{registroId === null ? "Adicione à sua lista:": "Esse jogo já está na sua lista, mas você pode mudar a lista e o score"}</label>
+            <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:": "Esse jogo já está na sua lista, mas você pode mudar a lista e o score"}</label>
+            {jogoNaLista && <p>O jogo no momento está na lista {currentList} com o score de {currentScore}</p>}
             <select
               id="game-list"
               name="game-list"
@@ -102,15 +102,15 @@ export default function GameDetails({ game, isLoading, user }) {
               className="custom-select"
             >
               <option value="" disabled>
-                Selecione em qual lista adicionar
+                {!jogoNaLista ? "Selecione em qual lista adicionar" : "Mover jogo para qual lista?"}
               </option>
-              <option value="jogado">Jogado</option>
-              <option value="jogando">Jogando</option>
-              <option value="lista-de-desejos">Lista de desejos</option>
-              <option value="dropado">Dropado</option>
+              <option value="Jogado">Jogado</option>
+              <option value="Jogando">Jogando</option>
+              <option value="Lista-de-desejos">Lista de desejos</option>
+              <option value="Dropado">Dropado</option>
             </select>
 
-            <label htmlFor="game-score">Dê uma nota (0 a 10):</label>
+            <label htmlFor="game-score">{!jogoNaLista? "Dê uma nota:" : "Atualize a nota:"}</label>
             <select
               id="game-score"
               name="game-score"
@@ -128,7 +128,7 @@ export default function GameDetails({ game, isLoading, user }) {
               ))}
             </select>
 
-            <input type="submit" value={registroId === null ? "Adicionar" : "Atualizar"} className="custom-button" />
+            <input type="submit" value={!jogoNaLista? "Adicionar" : "Atualizar"} className="custom-button" />
           </form>}
 
           {/* Informações adicionais sobre o jogo */}
