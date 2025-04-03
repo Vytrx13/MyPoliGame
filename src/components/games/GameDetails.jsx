@@ -1,41 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./GameDetails.css";
 
 export default function GameDetails({ game, isLoading, user }) {
   if (isLoading || !game) {
-        return <div className="loading-message">Carregando jogo...</div>;
+    return <div className="loading-message">Carregando jogo...</div>;
   }
   const [selectedList, setSelectedList] = useState("");
   const [score, setScore] = useState("");
 
-  // const [currentList , setCurrentList] = useState(null);
-  // const [currentScore, setCurrentScore ] = useState(null);
-  // const [registroId, setRegistroId] = useState(null);
-// TODO: SE ESSE REGISTROID FOR DIFERENTE DE NULL POSSO GARANTIR Q JA EXISTE NA LISTA, ENT N PRECISA VERIFICAR
-// NO BACKEND SE EXISTE OU N
-// REFATORAR ESSA PARTE 
-// PARA FACILITAR EH MELHOR SEPARAR A RODA add em add e update
-// O useEffect EH CHAMADO QND O COMPONENTE EH CARREGADO, DA PRA VERIFICAR SE JA EXISTE NESSE PONTO
+  const [currentList, setCurrentList] = useState(null);
+  const [currentScore, setCurrentScore] = useState(null);
+  const [registroId, setRegistroId] = useState(null);
+
+  // TODO: SE ESSE REGISTROID FOR DIFERENTE DE NULL POSSO GARANTIR Q JA EXISTE NA LISTA, ENT N PRECISA VERIFICAR
+  // NO BACKEND SE EXISTE OU N
+  // REFATORAR ESSA PARTE 
+  // PARA FACILITAR EH MELHOR SEPARAR A RODA add em add e update
+  // O useEffect EH CHAMADO QND O COMPONENTE EH CARREGADO, DA PRA VERIFICAR SE JA EXISTE NESSE PONTO
 
   const gameId = game.id;
   const gameName = game.name;
   const imageUrl = game.image ? game.image.original_url : "/default-game.png";
 
-  // useEffect(() => {
-  //   const checkGameInList = async () => {
-  //     if (!user) return; 
-  
-  //     try {
-  //       // procurar se ja existe e se ja existe, preciso do rating tipo e do registroId
-  //     } catch (err) {
-  //       setError("Erro ao verificar a lista do usuário.");
-  //       console.error(err);
-  //     }
-  //   };
-  
-  //   checkGameInList();
-  // }, []);
-  
+  useEffect(() => {
+    const checkGameInList = async () => {
+      if (!user) return;
+
+      try {
+        // procurar se ja existe e se ja existe, preciso do rating tipo e do registroId
+        const res = await fetch("/listas/check-game-in-list", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user, gameId }),
+        });
+
+        if (res.ok) {
+          const { tipo, rating, id } = await res.json();
+          setCurrentList(tipo);
+          setCurrentScore(rating);
+          setRegistroId(id);
+        } else {
+          throw new Error(res.error);
+        }
+
+      } catch (err) {
+        setError("Erro ao verificar a lista do usuário.");
+        console.error(err);
+      }
+    };
+
+    checkGameInList();
+  }, []);
+
 
   const handleSelectChange = (event) => {
     setSelectedList(event.target.value);
@@ -47,22 +63,22 @@ export default function GameDetails({ game, isLoading, user }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
 
     try {
-        const res = await fetch("/listas/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user, selectedList, gameId, gameName, imageUrl, score }),
-        });
-        alert(`Jogo adicionado à lista: ${selectedList} com nota: ${score}`);
+      const res = await fetch("/listas/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user, selectedList, gameId, gameName, imageUrl, score }),
+      });
+      alert(`Jogo adicionado à lista: ${selectedList} com nota: ${score}`);
     } catch (err) {
-        setError(err.message);
-        alert("error:", err);
-        setGames(null);
+      setError(err.message);
+      alert("error:", err);
+      setGames(null);
     }
-   
-    
+
+
   };
 
 
@@ -76,8 +92,8 @@ export default function GameDetails({ game, isLoading, user }) {
       <div className="game-content">
         <img src={imageUrl} alt={game.name} />
         <div className="game-info">
-          { user !== null && <form onSubmit={handleSubmit}>
-            <label htmlFor="game-list">Adicione à sua lista:</label>
+          {user !== null && <form onSubmit={handleSubmit}>
+            <label htmlFor="game-list">{registroId === null ? "Adicione à sua lista:": "Esse jogo já está na sua lista, mas você pode mudar a lista e o score"}</label>
             <select
               id="game-list"
               name="game-list"
@@ -112,7 +128,7 @@ export default function GameDetails({ game, isLoading, user }) {
               ))}
             </select>
 
-            <input type="submit" value="Adicionar" className="custom-button" />
+            <input type="submit" value={registroId === null ? "Adicionar" : "Atualizar"} className="custom-button" />
           </form>}
 
           {/* Informações adicionais sobre o jogo */}

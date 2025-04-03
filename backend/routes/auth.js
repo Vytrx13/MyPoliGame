@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const pool = require('../db');
 
 const router = express.Router();
-const JWT_SECRET = 'segredo_muito_secreto'; // Guarde em uma variável de ambiente
+const JWT_SECRET = 'segredo_muito_secreto'; 
 
 // Rota de registro
 router.post('/register', async (req, res) => {
