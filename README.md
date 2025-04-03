@@ -7,13 +7,13 @@ configurar db.js p corresponder a database q vc tem localmente (usa o software p
 
 arranjar sua propria api key em https://www.giantbomb.com/api/ e botar em um arquivo .env no diretorio do backend ou se quiser usar minha chave, baixar o arquivo .env no drive
 
-no diretório raiz:
+P inicializar o front, no diretório raiz:
 
 $ npm i
 
 $ npm run dev
 
-abrir outro terminal ai no diretório do backend:
+P inicializar o back: abrir outro terminal ai no diretório do backend: 
 
 $ npm i
 

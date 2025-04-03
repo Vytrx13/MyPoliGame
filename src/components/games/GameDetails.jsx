@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./GameDetails.css";
 
-export default function GameDetails({ game, isLoading, user }) {
-  if (isLoading || !game) {
-    return <div className="loading-message">Carregando jogo...</div>;
-  }
+export default function GameDetails({ game, user }) {
+
   const [selectedList, setSelectedList] = useState("");
   const [score, setScore] = useState("");
 
@@ -12,18 +10,20 @@ export default function GameDetails({ game, isLoading, user }) {
   const [currentScore, setCurrentScore] = useState(null);
   const [jogoNaLista, setjogoNaLista] = useState(false);
 
+  const [error, setError] = useState(null);
+
   // TODO : Botar botao pra deletar o jogo da lista.
 
-  const gameId = game.id;
-  const gameName = game.name;
-  const imageUrl = game.image ? game.image.original_url : "/default-game.png";
+
 
   useEffect(() => {
     const checkGameInList = async () => {
+      // console.log("chegameonlist");
       if (!user) return;
 
       try {
         // procurar se ja existe e se ja existe, preciso do rating tipo e do jogoNaLista
+        // const gameId = game.id;
         const res = await fetch("/listas/check-game-in-list", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -46,7 +46,7 @@ export default function GameDetails({ game, isLoading, user }) {
     };
 
     checkGameInList();
-  }, [selectedList]);
+  }, [selectedList, jogoNaLista, user]);
 
 
   const handleSelectChange = (event) => {
@@ -58,10 +58,14 @@ export default function GameDetails({ game, isLoading, user }) {
   };
 
   const handleSubmit = async (event) => {
+    // console.log("handle submit")
     event.preventDefault();
 
 
     try {
+      // const gameId = game.id;
+      // const gameName = game.name;
+      // const imageUrl = game.image ? game.image.original_url : "/default-game.png";
       const res = await fetch("/listas/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,10 +84,38 @@ export default function GameDetails({ game, isLoading, user }) {
 
   };
 
+  async function handleRemover() {
+    console.log("handle remover")
+    try {
+      // const gameId = game.id;
+      const res = await fetch("listas/remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user, gameId }),
+      });
+      
+      if (res.ok) {
+        alert("Jogo removido com sucesso!");
+        setjogoNaLista(false);
+        setCurrentScore(null);
+        setCurrentList(null);
+      }
+      else alert("erro ao removero jogo", res.error);
+    } catch (err) {
+      setError("Erro ao remover jogo da lista");
+      console.log(err);
+    }
+  }
 
-
+  // if (isLoading || !game) {
+  //   return <div className="loading-message">Carregando jogo...</div>;
+  // }
+  const gameId = game.id;
+  const gameName = game.name;
+  const imageUrl = game.image ? game.image.original_url : "/default-game.png";
   return (
     <>
+      {error && <div className="error-message">{error}</div>}
       <div className="game-header">
         <h1>{game.name}</h1>
       </div>
@@ -92,8 +124,9 @@ export default function GameDetails({ game, isLoading, user }) {
         <img src={imageUrl} alt={game.name} />
         <div className="game-info">
           {user !== null && <form onSubmit={handleSubmit}>
-            <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:": "Esse jogo já está na sua lista, mas você pode mudar a lista e o score"}</label>
-            {jogoNaLista && <p>O jogo no momento está na lista {currentList} com o score de {currentScore}</p>}
+            <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e o score"}</label>
+            {jogoNaLista && <p className="jogo-na-lista"> O jogo no momento está na lista {currentList} com a nota de {currentScore}</p>}
+
             <select
               id="game-list"
               name="game-list"
@@ -110,7 +143,7 @@ export default function GameDetails({ game, isLoading, user }) {
               <option value="Dropado">Dropado</option>
             </select>
 
-            <label htmlFor="game-score">{!jogoNaLista? "Dê uma nota:" : "Atualize a nota:"}</label>
+            <label htmlFor="game-score">{!jogoNaLista ? "Dê uma nota:" : "Atualize a nota:"}</label>
             <select
               id="game-score"
               name="game-score"
@@ -128,7 +161,8 @@ export default function GameDetails({ game, isLoading, user }) {
               ))}
             </select>
 
-            <input type="submit" value={!jogoNaLista? "Adicionar" : "Atualizar"} className="custom-button" />
+            {selectedList && score && <input type="submit" value={!jogoNaLista ? "Adicionar" : "Atualizar"} className="custom-button" />}
+            {jogoNaLista && <button type="button" onClick={handleRemover} className="remover">Remover jogo da lista</button>}
           </form>}
 
           {/* Informações adicionais sobre o jogo */}

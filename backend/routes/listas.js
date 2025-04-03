@@ -67,12 +67,33 @@ router.post('/check-game-in-list', async (req, res) => {
             res.json({tipo , rating, id}); // tetar se funfa
         }
         else {
-            console.log("n ta na lista")
+            console.log("n ta na lista");
         }
     } catch (err) {
         console.error("Erro ao verificar lista:", err);
         res.status(500).json({ error: 'Erro ao verificar lista' });
     }
+});
+
+router.post('/remove', async (req, res) => {
+    const { user, gameId } = req.body;
+
+    console.log("tentando remover", user, gameId);
+    
+    if (!user || !gameId) {
+        return res.status(400).json({ error: 'Parâmetros inválidos' });
+    }
+
+    try {
+        await pool.query('DELETE FROM registro_lista WHERE username = $1 AND jogo_id = $2', [user, gameId]);
+        console.log("removido!");
+        res.status(200).send("deu bom!");
+
+    } catch (err) {
+        res.status(500).json({ error: 'Erro ao remover jogo da lista' });
+    }
+
+
 });
 
 module.exports = router;

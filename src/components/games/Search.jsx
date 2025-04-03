@@ -129,10 +129,11 @@ export default function Search({ changePage, user }) {
             />}
 
 
-            {isGameSelected && <GameDetails 
+            {isGameSelected && !isLoading && <GameDetails 
                 game={gameData}
                 user={user}
             />}
+            {isGameSelected && isLoading && <p>Carregando...</p>}
         </div>
     );
 }
