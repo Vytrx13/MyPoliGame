@@ -37,7 +37,8 @@ services:
   db:
     network_mode: "host" 
     volumes:
-    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      #- db-data:/var/lib/postgresql/data
     image: postgres
     restart: always
     user: postgres
@@ -51,4 +52,5 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+#volumes:
+  #db-data:
