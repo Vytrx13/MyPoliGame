@@ -12,15 +12,20 @@ export default function GameDetails({ game, user }) {
 
   const [error, setError] = useState(null);
 
-  // TODO : Botar botao pra deletar o jogo da lista.
+  
 
-
+  const gameId = game.id;
+  const gameName = game.name;
+  const imageUrl = game.image ? game.image.original_url : "/default-game.png";
 
   useEffect(() => {
     const checkGameInList = async () => {
-      // console.log("chegameonlist");
-      if (!user) return;
-
+      console.log("check game in list");
+      if (!user) {  
+        console.log("!user");
+          return;
+      }
+      // console.log("começando")
       try {
         // procurar se ja existe e se ja existe, preciso do rating tipo e do jogoNaLista
         // const gameId = game.id;
@@ -32,21 +37,25 @@ export default function GameDetails({ game, user }) {
 
         if (res.ok) {
           const { tipo, rating, id } = await res.json();
+          console.log(tipo, rating, id);
           setCurrentList(tipo);
           setCurrentScore(rating);
           setjogoNaLista(id > 0);
         } else {
           throw new Error(res.error);
+          console.log(res.error);
+          console.log(" deu ruim");
         }
 
       } catch (err) {
         setError("Erro ao verificar a lista do usuário.");
         console.error(err);
+        console.log(err);
       }
     };
 
     checkGameInList();
-  }, [selectedList, jogoNaLista, user]);
+  }, [user, gameId]);
 
 
   const handleSelectChange = (event) => {
@@ -110,9 +119,7 @@ export default function GameDetails({ game, user }) {
   // if (isLoading || !game) {
   //   return <div className="loading-message">Carregando jogo...</div>;
   // }
-  const gameId = game.id;
-  const gameName = game.name;
-  const imageUrl = game.image ? game.image.original_url : "/default-game.png";
+
   return (
     <>
       {error && <div className="error-message">{error}</div>}

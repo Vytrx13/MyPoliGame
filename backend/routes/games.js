@@ -9,7 +9,7 @@ const router = express.Router();
 // Configuração do Rate Limiter
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutos
-    max: 60, // Máximo de 30 requisições por IP
+    max: 100, // Máximo de 30 requisições por IP
     message: "Limite de requisições atingido. Tente novamente mais tarde.",
     headers: true, // Retorna headers informando o limite
 });
