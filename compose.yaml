@@ -14,6 +14,15 @@ services:
     environment:
       NODE_ENV: development
     network_mode: "host" 
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /usr/src/app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
     depends_on:
       backend:
         condition: service_started
@@ -24,13 +33,15 @@ services:
     environment:
       NODE_ENV: production
     network_mode: "host" 
-
-# The commented out section below is an example of how to define a PostgreSQL
-# database that your application can use. `depends_on` tells Docker Compose to
-# start the database before your application. The `db-data` volume persists the
-# database data between container restarts. The `db-password` secret is used
-# to set the database password. You must create `db/password.txt` and add
-# a password of your choosing to it before running `docker-compose up`.
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
+          target: /usr/src/app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
     depends_on:
       db:
         condition: service_healthy
@@ -38,7 +49,6 @@ services:
     network_mode: "host" 
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      #- db-data:/var/lib/postgresql/data
     image: postgres
     restart: always
     user: postgres
@@ -52,5 +62,3 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-#volumes:
-  #db-data:
