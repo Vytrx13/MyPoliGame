@@ -5,6 +5,7 @@ import Home from './components/Home.jsx';
 import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import Search from './components/games/Search.jsx';
+import Listas from './components/listas/Listas.jsx';
 
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -54,8 +55,8 @@ function App() {
         {currentPage === "home" && <Home changePage={changePage} />}
         {currentPage === "login" && <Login changePage={changePage} setUser={setUser} />}
         {currentPage === "register" && <Register changePage={changePage} setUser={setUser} />}
-        {currentPage === "search" && <Search changePage={changePage} setUser={setUser} user={user} />}
-        {/* {currentPage === "lista" && <Lista changePage={changePage} setUser={setUser} />} */}
+        {currentPage === "search" && <Search user={user} />}
+        {currentPage === "lista" && <Listas user={user}/>}
       </main>
       <Footer />
     </>

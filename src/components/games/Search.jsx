@@ -3,7 +3,7 @@ import { useState } from "react";
 import GamesContainer from "./GamesContainer.jsx";
 import GameDetails from "./GameDetails.jsx";
 
-export default function Search({ changePage, user }) {
+export default function Search({ user }) {
     const [searchVal, setSearchVal] = useState("");
     const [games, setGames] = useState(null); // para search
     const [gameData, setGameData] = useState(null);

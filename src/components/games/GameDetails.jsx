@@ -125,7 +125,7 @@ export default function GameDetails({ game, user }) {
         <div className="game-info">
           {user !== null && <form onSubmit={handleSubmit}>
             <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e a nota"}</label>
-            {jogoNaLista && <p className="jogo-na-lista"> O jogo no momento está na lista {currentList} com a nota de {currentScore}</p>}
+            {jogoNaLista && <p className="jogo-na-lista"> O jogo no momento está na lista {currentList} com a nota {currentScore}</p>}
             {jogoNaLista && <p className="jogo-na-lista">Para qual lista mover o jogo?</p>}
             <select
               id="game-list"
