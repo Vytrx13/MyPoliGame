@@ -11,6 +11,8 @@ P inicializar o front, no diretório raiz:
 
 $ npm i
 
+$ npm i framer-motion
+
 $ npm run dev
 
 P inicializar o back: abrir outro terminal ai no diretório do backend: 
