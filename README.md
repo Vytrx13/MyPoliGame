@@ -52,7 +52,10 @@ Rodar `docker compose up --build --watch` na raiz do repositório;
 
 Pra expor pro público usar tailscale que nem no outro método.
 
-
+Para reiniciar db:
+Parar container.
+Usar `docker rm mypoligame-db` para remover container da db.
+Rodar `docker compose up --build --watch` para construir o container de novo.
 
 
 
