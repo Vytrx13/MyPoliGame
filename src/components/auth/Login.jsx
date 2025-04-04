@@ -16,6 +16,7 @@ function Login({ setUser, changePage }) {
       if (res.ok) {
         const data = await res.json();
         localStorage.setItem("token", data.token);
+        // console.log("token:", localStorage.getItem('token'));
         setUser(username);
         setError(null);
         changePage("home");

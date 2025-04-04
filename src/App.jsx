@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // pages
 import Home from './components/Home.jsx';
@@ -27,14 +27,34 @@ function App() {
   }
   const logado = user !== null;
 
+  useEffect(() => {
+    const checkToken = async () => {
+      // console.log("token:", localStorage.getItem('token'));
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const res = await fetch("/auth/verify-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+      if (res.ok) {
+        const {username} = await res.json();
+        // console.log(username);
+        setUser(username);
+      }
+    };
+
+    checkToken();
+  }, []);
   return (
     <>
-      <Header logado={logado} changePage={changePage} usuario={user} logout={logout}/>
+      <Header logado={logado} changePage={changePage} usuario={user} logout={logout} />
       <main>
         {currentPage === "home" && <Home changePage={changePage} />}
         {currentPage === "login" && <Login changePage={changePage} setUser={setUser} />}
         {currentPage === "register" && <Register changePage={changePage} setUser={setUser} />}
-        {currentPage === "search" && <Search changePage={changePage} setUser={setUser} user={user}/>}
+        {currentPage === "search" && <Search changePage={changePage} setUser={setUser} user={user} />}
         {/* {currentPage === "lista" && <Lista changePage={changePage} setUser={setUser} />} */}
       </main>
       <Footer />

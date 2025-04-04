@@ -124,9 +124,9 @@ export default function GameDetails({ game, user }) {
         <img src={imageUrl} alt={game.name} />
         <div className="game-info">
           {user !== null && <form onSubmit={handleSubmit}>
-            <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e o score"}</label>
+            <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e a nota"}</label>
             {jogoNaLista && <p className="jogo-na-lista"> O jogo no momento está na lista {currentList} com a nota de {currentScore}</p>}
-
+            {jogoNaLista && <p className="jogo-na-lista">Para qual lista mover o jogo?</p>}
             <select
               id="game-list"
               name="game-list"
@@ -134,8 +134,9 @@ export default function GameDetails({ game, user }) {
               onChange={handleSelectChange}
               className="custom-select"
             >
+              
               <option value="" disabled>
-                {!jogoNaLista ? "Selecione em qual lista adicionar" : "Mover jogo para qual lista?"}
+                {!jogoNaLista ? "Selecione em qual lista adicionar" : "Selecione para qual lista mover o jogo"}
               </option>
               <option value="Jogado">Jogado</option>
               <option value="Jogando">Jogando</option>
