@@ -12,7 +12,7 @@ export default function GameDetails({ game, user }) {
 
   const [error, setError] = useState(null);
 
-  
+
 
   const gameId = game.id;
   const gameName = game.name;
@@ -21,9 +21,9 @@ export default function GameDetails({ game, user }) {
   useEffect(() => {
     const checkGameInList = async () => {
       console.log("check game in list");
-      if (!user) {  
+      if (!user) {
         console.log("!user");
-          return;
+        return;
       }
       // console.log("começando")
       try {
@@ -41,6 +41,10 @@ export default function GameDetails({ game, user }) {
           setCurrentList(tipo);
           setCurrentScore(rating);
           setjogoNaLista(id > 0);
+
+          setSelectedList(currentList || "");
+          setScore(currentScore || "");
+
         } else {
           throw new Error(res.error);
           console.log(res.error);
@@ -55,7 +59,7 @@ export default function GameDetails({ game, user }) {
     };
 
     checkGameInList();
-  }, [user, gameId]);
+  }, [user, gameId, jogoNaLista]);
 
 
   const handleSelectChange = (event) => {
@@ -102,7 +106,7 @@ export default function GameDetails({ game, user }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, gameId }),
       });
-      
+
       if (res.ok) {
         alert("Jogo removido com sucesso!");
         setjogoNaLista(false);
@@ -134,6 +138,7 @@ export default function GameDetails({ game, user }) {
             <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e a nota"}</label>
             {jogoNaLista && <p className="jogo-na-lista"> O jogo no momento está na lista {currentList} com a nota {currentScore}</p>}
             {jogoNaLista && <p className="jogo-na-lista">Para qual lista mover o jogo?</p>}
+            
             <select
               id="game-list"
               name="game-list"
@@ -141,7 +146,7 @@ export default function GameDetails({ game, user }) {
               onChange={handleSelectChange}
               className="custom-select"
             >
-              
+
               <option value="" disabled>
                 {!jogoNaLista ? "Selecione em qual lista adicionar" : "Selecione para qual lista mover o jogo"}
               </option>
@@ -152,6 +157,7 @@ export default function GameDetails({ game, user }) {
             </select>
 
             <label htmlFor="game-score">{!jogoNaLista ? "Dê uma nota:" : "Atualize a nota:"}</label>
+
             <select
               id="game-score"
               name="game-score"
