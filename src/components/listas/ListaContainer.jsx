@@ -3,10 +3,11 @@ import './ListaContainer.css';
 import GameDetails from '../games/GameDetails';
 import { useState, useEffect } from 'react';
 
-export default function ListaContainer({ user }) {
+export default function ListaContainer({ user, tipoLista }) {
 
     const [games, setGames] = useState(null);
     const [isGameSelected, setisGameSelected] = useState(false);
+    
 
     const [isLoading, setIsLoading] = useState(false);
     const [gameData, setGameData] = useState(null);
@@ -20,7 +21,7 @@ export default function ListaContainer({ user }) {
                 const res = await fetch("/listas/get-games-from-list", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ user }),
+                    body: JSON.stringify({ user, tipoLista }),
                 });
 
                 if (res.ok) {
@@ -38,7 +39,7 @@ export default function ListaContainer({ user }) {
         };
 
         checkList();
-    }, [user, isGameSelected]);
+    }, [user, isGameSelected, tipoLista]);
 
     if (games === null || games.length === 0) {
         return <div className="empty-message">Nenhum jogo na lista</div>;
@@ -90,39 +91,46 @@ export default function ListaContainer({ user }) {
         }
     }
 
-    
+
     const handleBackToList = () => {
         setisGameSelected(false);
     };
 
     return (
         <>
-            {!isGameSelected && <div className="games-container">
-                <h3 className="games-title">Conteúdo de todas as listas</h3>
-                <div className="games-grid">
-                    {games.map(game => (
-                        <div
-                            key={game.id}
-                            className="game-card"
-                            onClick={() => onGameSelect(game)}
-                        >
-                            {game.url_imagem && (
-                                <img
-                                    src={game.url_imagem}
-                                    alt={game.nome_jogo}
-                                    className="game-image"
-                                />
-                            )}
-                            <h4 className="game-name">{game.nome_jogo}</h4>
-                            <h4 className='lista'>Lista: {game.tipo}</h4>
-                            <h4 className='score'>Nota: {game.rating}</h4>
+            {!isGameSelected && (
+                <>
+                    
+
+                    <div className="games-container">
+                        <h3 className="games-title">Conteúdo {tipoLista ? `da lista ${tipoLista}` : "de todas as listas"}</h3>
+                        <div className="games-grid">
+                            {games.map(game => (
+                                <div
+                                    key={game.id}
+                                    className="game-card"
+                                    onClick={() => onGameSelect(game)}
+                                >
+                                    {game.url_imagem && (
+                                        <img
+                                            src={game.url_imagem}
+                                            alt={game.nome_jogo}
+                                            className="game-image"
+                                        />
+                                    )}
+                                    <h4 className="game-name">{game.nome_jogo}</h4>
+                                    <h4 className='lista'>Lista: {game.tipo}</h4>
+                                    <h4 className='score'>Nota: {game.rating}</h4>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            </div>}
+                    </div>
+                </>
+            )}
+
             {isGameSelected && !isLoading && (
                 <>
-                                        <button className="back-button" onClick={handleBackToList}>
+                    <button className="back-button" onClick={handleBackToList}>
                         Voltar para a lista
                     </button>
                     <GameDetails game={gameData} user={user} />

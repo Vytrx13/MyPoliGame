@@ -47,13 +47,13 @@ router.post('/add', async (req, res) => {
 
 router.post('/check-game-in-list', async (req, res) => {
     const { user, gameId } = req.body;
-    
+
     if (!user || !gameId) {
         return res.status(400).json({ error: 'Parâmetros inválidos' });
     }
 
     console.log("Verificando se já está na lista,", user, gameId);
-    
+
     try {
         const registro_id = await getRegistroId(user, gameId); // retorna zero se não existe
         console.log("registro_id", registro_id);
@@ -64,7 +64,7 @@ router.post('/check-game-in-list', async (req, res) => {
             const tipo = result.rows[0].tipo;
             const rating = result.rows[0].rating;
             const id = result.rows[0].id;
-            res.json({tipo , rating, id}); // tetar se funfa
+            res.json({ tipo, rating, id }); // tetar se funfa
         }
         else {
             console.log("n ta na lista");
@@ -79,7 +79,7 @@ router.post('/remove', async (req, res) => {
     const { user, gameId } = req.body;
 
     console.log("tentando remover", user, gameId);
-    
+
     if (!user || !gameId) {
         return res.status(400).json({ error: 'Parâmetros inválidos' });
     }
@@ -97,21 +97,26 @@ router.post('/remove', async (req, res) => {
 });
 
 router.post('/get-games-from-list', async (req, res) => {
-    const { user } = req.body;
+    const { user, tipoLista } = req.body;
 
-    console.log("Pegando jogos da lista do usuario: ", user);
-    
+    console.log("Pegando jogos da lista do usuario: ", user, tipoLista);
+
     if (!user) {
         return res.status(400).json({ error: 'Parâmetros inválidos' });
     }
 
     try {
-        const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 ORDER BY nome_jogo', [user]);
-        console.log(result.rows);
-        res.json(result.rows);
+        if (!tipoLista) {
+            const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 ORDER BY nome_jogo', [user]);
+            res.json(result.rows);
+        }
+        else {
+            const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 AND tipo = $2 ORDER BY nome_jogo', [user, tipoLista]);
+            res.json(result.rows);
+        }
 
     } catch (err) {
-        res.status(500).json({ error: 'Erro ao remover jogo da lista' });
+        res.status(500).json({ error: 'Erro ao pegar jogos da lista' });
     }
 
 
