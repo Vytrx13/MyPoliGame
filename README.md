@@ -44,6 +44,7 @@ rating INT
 );
 
 Pra rodar com docker:
+
 Baixar docker desktop (https://docs.docker.com/desktop/setup/install/windows-install/);
 Depois de instalado ativar "enable host networking" em Settings -> Resources -> Network;
 
