@@ -96,4 +96,25 @@ router.post('/remove', async (req, res) => {
 
 });
 
+router.post('/get-games-from-list', async (req, res) => {
+    const { user } = req.body;
+
+    console.log("Pegando jogos da lista do usuario: ", user);
+    
+    if (!user) {
+        return res.status(400).json({ error: 'Parâmetros inválidos' });
+    }
+
+    try {
+        const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 ORDER BY nome_jogo', [user]);
+        console.log(result.rows);
+        res.json(result.rows);
+
+    } catch (err) {
+        res.status(500).json({ error: 'Erro ao remover jogo da lista' });
+    }
+
+
+});
+
 module.exports = router;
