@@ -43,6 +43,22 @@ url_imagem TEXT,
 rating INT
 );
 
+Pra rodar com docker:
+Baixar docker desktop (https://docs.docker.com/desktop/setup/install/windows-install/);
+Depois de instalado ativar "enable host networking" em Settings -> Resources -> Network;
+
+Rodar `docker compose up --build` na raiz do repositório;
+Sempre que mudar algum arquivo rodar `docker compose up --build` novamente;
+
+Pra expor pro público usar tailscale que nem no outro método.
+
+
+
+
+
+
+
+
 
 
 
