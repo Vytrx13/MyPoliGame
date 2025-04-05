@@ -6,6 +6,7 @@ import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import Search from './components/games/Search.jsx';
 import Listas from './components/listas/Listas.jsx';
+import Pessoas from './components/pessoas/Pessoas.jsx';
 
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -57,6 +58,7 @@ function App() {
         {currentPage === "register" && <Register changePage={changePage} setUser={setUser} />}
         {currentPage === "search" && <Search user={user} />}
         {currentPage === "lista" && <Listas user={user}/>}
+        {currentPage === "pessoas" && <Pessoas/>}
       </main>
       <Footer />
     </>
