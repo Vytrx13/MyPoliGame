@@ -126,7 +126,7 @@ router.get('/get-todas-pessoas', async (req, res) => {
     console.log("pegar todos usuarios de users");
 
     try {
-        const result = await pool.query('SELECT username FROM users');
+        const result = await pool.query('SELECT username FROM users ORDER BY username');
         // console.log(result.rows);
         res.json(result.rows);
     } catch (err) {
