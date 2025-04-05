@@ -122,4 +122,17 @@ router.post('/get-games-from-list', async (req, res) => {
 
 });
 
+router.get('/get-todas-pessoas', async (req, res) => {
+    console.log("pegar todos usuarios de users");
+
+    try {
+        const result = await pool.query('SELECT username FROM users');
+        // console.log(result.rows);
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Erro ao pegar usuarios da lista' });
+    }
+})
+
 module.exports = router;
