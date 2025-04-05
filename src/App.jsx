@@ -57,8 +57,8 @@ function App() {
         {currentPage === "login" && <Login changePage={changePage} setUser={setUser} />}
         {currentPage === "register" && <Register changePage={changePage} setUser={setUser} />}
         {currentPage === "search" && <Search user={user} />}
-        {currentPage === "lista" && <Listas user={user}/>}
-        {currentPage === "pessoas" && <Pessoas/>}
+        {currentPage === "lista" && <Listas user={user} donoLista={user}/>}
+        {currentPage === "pessoas" && <Pessoas user={user}/>}
       </main>
       <Footer />
     </>

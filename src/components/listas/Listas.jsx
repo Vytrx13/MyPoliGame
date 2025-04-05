@@ -1,12 +1,12 @@
 import { useState } from "react";
 import ListaContainer from "./ListaContainer";
-export default function Listas({ user }) {
+export default function Listas({ user, donoLista }) {
     const [tipoLista, setTipoLista] = useState("");
 
-
+    // console.log("Listas donoLista: ", donoLista);
     return (
         <>
-            <p>Lista de {user}</p>
+            <p>Lista de {donoLista}</p>
             <div className="lista-selector">
                 <label htmlFor="tipoLista">Selecione a lista:</label>
                 <select
@@ -22,7 +22,7 @@ export default function Listas({ user }) {
                     <option value="Lista-de-desejos">Lista de desejos</option>
                 </select>
             </div>
-            <ListaContainer user={user} tipoLista={tipoLista}/>
+            <ListaContainer user={user} tipoLista={tipoLista} donoLista={donoLista}/>
         </>
     );
 }

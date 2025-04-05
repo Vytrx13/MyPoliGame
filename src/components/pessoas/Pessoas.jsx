@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import Listas from "../listas/Listas";
 import "./Pessoas.css";
 
-export default function Pessoas() {
+export default function Pessoas({user}) {
   const [allUsers, setAllUsers] = useState(null);
-  const [isPersonSelected, setIsPersonSelected] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState("");
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -30,7 +31,7 @@ export default function Pessoas() {
 
   function onPessoaSelect(username) {
     console.log(username);
-    setIsPersonSelected(true);
+    setSelectedPerson(username);
   }
 
   if (error) return <p className="error-message">{error}</p>;
@@ -48,6 +49,12 @@ export default function Pessoas() {
       return username.startsWith(term);
     });
   }
+  if (selectedPerson) return (
+    <>
+        <Listas user={user} donoLista={selectedPerson} />
+    </>
+  );
+  
   return (
     <>
       <input

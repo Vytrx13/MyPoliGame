@@ -97,21 +97,21 @@ router.post('/remove', async (req, res) => {
 });
 
 router.post('/get-games-from-list', async (req, res) => {
-    const { user, tipoLista } = req.body;
+    const { donoLista, tipoLista } = req.body;
 
-    console.log("Pegando jogos da lista do usuario: ", user, tipoLista);
+    console.log("Pegando jogos da lista do usuario: ", donoLista, tipoLista);
 
-    if (!user) {
+    if (!donoLista) {
         return res.status(400).json({ error: 'Parâmetros inválidos' });
     }
 
     try {
         if (!tipoLista) {
-            const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 ORDER BY nome_jogo', [user]);
+            const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 ORDER BY nome_jogo', [donoLista]);
             res.json(result.rows);
         }
         else {
-            const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 AND tipo = $2 ORDER BY nome_jogo', [user, tipoLista]);
+            const result = await pool.query('SELECT tipo, jogo_id, nome_jogo, url_imagem, rating FROM registro_lista WHERE username = $1 AND tipo = $2 ORDER BY nome_jogo', [donoLista, tipoLista]);
             res.json(result.rows);
         }
 
@@ -128,6 +128,7 @@ router.get('/get-todas-pessoas', async (req, res) => {
     try {
         const result = await pool.query('SELECT username FROM users ORDER BY username');
         // console.log(result.rows);
+        console.log(`Foram encontrados ${result.rows.length} usuários.`);
         res.json(result.rows);
     } catch (err) {
         console.log(err);

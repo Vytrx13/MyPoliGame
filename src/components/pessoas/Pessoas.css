@@ -39,12 +39,9 @@
   margin-top: 2rem;
   font-size: 1.2rem;
   font-family: 'Poppins', sans-serif;
-  color: #f0f4ff; /* branco azulado, bom contraste com roxo */
 }
 
-.error-message {
-  color: #ff5a5a;
-}
+
 
 .search-bar {
     width: 100%;
