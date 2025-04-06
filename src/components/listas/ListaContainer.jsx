@@ -3,7 +3,7 @@ import './ListaContainer.css';
 import GameDetails from '../games/GameDetails';
 import { useState, useEffect } from 'react';
 
-export default function ListaContainer({ donoLista, tipoLista, user }) {
+export default function ListaContainer({ donoLista, tipoLista, user, toggleSeletorVisivel }) {
 
     const [games, setGames] = useState(null);
     const [isGameSelected, setisGameSelected] = useState(false);
@@ -49,6 +49,7 @@ export default function ListaContainer({ donoLista, tipoLista, user }) {
 
     async function onGameSelect(game) {
         setisGameSelected(true);
+        toggleSeletorVisivel(false);
 
 
         const gameId = game.jogo_id;
@@ -96,6 +97,7 @@ export default function ListaContainer({ donoLista, tipoLista, user }) {
 
     const handleBackToList = () => {
         setisGameSelected(false);
+        toggleSeletorVisivel(true);
     };
 
     return (
