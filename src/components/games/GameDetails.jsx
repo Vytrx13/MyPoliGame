@@ -5,12 +5,11 @@ export default function GameDetails({ game, user }) {
 
   const [selectedList, setSelectedList] = useState("");
   const [score, setScore] = useState("");
-
-  const [currentList, setCurrentList] = useState(null);
-  const [currentScore, setCurrentScore] = useState(null);
+  const [currentList, setCurrentList] = useState("");
+  const [currentScore, setCurrentScore] = useState(0);
   const [jogoNaLista, setjogoNaLista] = useState(false);
-
   const [error, setError] = useState(null);
+  const [isChecking, setIsChecking] = useState(true); // Novo estado para controle
 
 
 
@@ -19,48 +18,51 @@ export default function GameDetails({ game, user }) {
   const imageUrl = game.image ? game.image.original_url : "/default-game.png";
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkGameInList = async () => {
-      console.log("check gamessss in list");
-      if (!user) {
-        console.log("!user");
+      if (!user || !gameId) {
+        if (isMounted) setIsChecking(false);
         return;
       }
-      
-      console.log(user, gameId);
+
+      setIsChecking(true);
       try {
-        // procurar se ja existe e se ja existe, preciso do rating tipo e do jogoNaLista
-        // const gameId = game.id;
         const res = await fetch("/listas/check-game-in-list", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ user, gameId }),
         });
 
-        if (res.ok) {
-          const { tipo, rating, id } = await res.json();
-          console.log(tipo, rating, id);
-          setCurrentList(tipo);
-          setCurrentScore(rating);
-          setjogoNaLista(id > 0);
+        if (res.ok && isMounted) {
+          const data = await res.json();
 
-          setSelectedList(currentList || "");
-          setScore(currentScore || "");
-
-        } else {
-          throw new Error(res.error);
-          console.log(res.error);
-          console.log(" deu ruim");
+          if (data.exists) {
+            setCurrentList(data.tipo);
+            setCurrentScore(data.rating);
+            setjogoNaLista(true);
+            setSelectedList(data.tipo || "");
+            setScore(data.rating || "");
+          } else {
+            setjogoNaLista(false);
+            setSelectedList("");
+            setScore("");
+          }
         }
-
       } catch (err) {
-        setError("Erro ao verificar a lista do usuário.");
-        console.error(err);
-        console.log(err);
+        if (isMounted) {
+          setError("Erro ao verificar a lista do usuário.");
+          console.error(err);
+        }
+      } finally {
+        if (isMounted) setIsChecking(false);
       }
     };
 
     checkGameInList();
-  }, [user, gameId, jogoNaLista]);
+
+    return () => { isMounted = false; };
+  }, [user, gameId]);
 
 
   const handleSelectChange = (event) => {
@@ -135,50 +137,84 @@ export default function GameDetails({ game, user }) {
       <div className="game-content">
         <img src={imageUrl} alt={game.name} />
         <div className="game-info">
-          {user !== null && <form onSubmit={handleSubmit}>
-            <label htmlFor="game-list">{!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e a nota"}</label>
-            {jogoNaLista && <p className="jogo-na-lista"> O jogo no momento está na lista {currentList} com a nota {currentScore}</p>}
-            {jogoNaLista && <p className="jogo-na-lista">Para qual lista mover o jogo?</p>}
-            
-            <select
-              id="game-list"
-              name="game-list"
-              value={selectedList}
-              onChange={handleSelectChange}
-              className="custom-select"
-            >
+          {user !== null && (
+            <form onSubmit={handleSubmit}>
+              {isChecking ? (
+                <p>Verificando lista...</p>
+              ) : (
+                <>
+                  <label htmlFor="game-list">
+                    {!jogoNaLista ? "Adicione à sua lista:" : "Esse jogo já está na sua lista, mas você pode mudar a lista e a nota"}
+                  </label>
 
-              <option value="" disabled>
-                {!jogoNaLista ? "Selecione em qual lista adicionar" : "Selecione para qual lista mover o jogo"}
-              </option>
-              <option value="Jogado">Jogado</option>
-              <option value="Jogando">Jogando</option>
-              <option value="Lista-de-desejos">Lista de desejos</option>
-              <option value="Dropado">Dropado</option>
-            </select>
+                  {jogoNaLista && (
+                    <p className="jogo-na-lista">
+                      O jogo no momento está na lista {currentList} com a nota {currentScore}
+                    </p>
+                  )}
 
-            <label htmlFor="game-score">{!jogoNaLista ? "Dê uma nota:" : "Atualize a nota:"}</label>
+                  {jogoNaLista && (
+                    <p className="jogo-na-lista">Para qual lista mover o jogo?</p>
+                  )}
 
-            <select
-              id="game-score"
-              name="game-score"
-              value={score}
-              onChange={handleScoreChange}
-              className="custom-select"
-            >
-              <option value="" disabled>
-                Selecione uma nota
-              </option>
-              {[...Array(11).keys()].map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))}
-            </select>
+                  <select
+                    id="game-list"
+                    name="game-list"
+                    value={selectedList}
+                    onChange={handleSelectChange}
+                    className="custom-select"
+                  >
+                    <option value="" disabled>
+                      {!jogoNaLista ? "Selecione em qual lista adicionar" : "Selecione para qual lista mover o jogo"}
+                    </option>
+                    <option value="Jogado">Jogado</option>
+                    <option value="Jogando">Jogando</option>
+                    <option value="Lista-de-desejos">Lista de desejos</option>
+                    <option value="Dropado">Dropado</option>
+                  </select>
 
-            {selectedList && score && <input type="submit" value={!jogoNaLista ? "Adicionar" : "Atualizar"} className="custom-button" />}
-            {jogoNaLista && <button type="button" onClick={handleRemover} className="remover">Remover jogo da lista</button>}
-          </form>}
+                  <label htmlFor="game-score">
+                    {!jogoNaLista ? "Dê uma nota:" : "Atualize a nota:"}
+                  </label>
+
+                  <select
+                    id="game-score"
+                    name="game-score"
+                    value={score}
+                    onChange={handleScoreChange}
+                    className="custom-select"
+                  >
+                    <option value="" disabled>
+                      Selecione uma nota
+                    </option>
+                    {[...Array(11).keys()].map((num) => (
+                      <option key={num} value={num}>
+                        {num}
+                      </option>
+                    ))}
+                  </select>
+
+                  {selectedList && score && (
+                    <input
+                      type="submit"
+                      value={!jogoNaLista ? "Adicionar" : "Atualizar"}
+                      className="custom-button"
+                    />
+                  )}
+
+                  {jogoNaLista && (
+                    <button
+                      type="button"
+                      onClick={handleRemover}
+                      className="remover"
+                    >
+                      Remover jogo da lista
+                    </button>
+                  )}
+                </>
+              )}
+            </form>
+          )}
 
           {/* Informações adicionais sobre o jogo */}
           <p>

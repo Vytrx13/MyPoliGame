@@ -55,7 +55,7 @@ router.post('/check-game-in-list', async (req, res) => {
     console.log("Verificando se já está na lista,", user, gameId);
 
     try {
-        const registro_id = await getRegistroId(user, gameId); // retorna zero se não existe
+        const registro_id = await getRegistroId(user, gameId);
         console.log("registro_id", registro_id);
         if (registro_id > 0) {
             console.log("ta na lista")
@@ -64,10 +64,11 @@ router.post('/check-game-in-list', async (req, res) => {
             const tipo = result.rows[0].tipo;
             const rating = result.rows[0].rating;
             const id = result.rows[0].id;
-            res.json({ tipo, rating, id }); // tetar se funfa
+            res.status(200).json({ tipo, rating, id, exists: true });
         }
         else {
             console.log("n ta na lista");
+            res.status(200).json({ exists: false });
         }
     } catch (err) {
         console.error("Erro ao verificar lista:", err);
