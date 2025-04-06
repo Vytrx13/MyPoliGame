@@ -27,8 +27,7 @@ export default function Pessoas({ user }) {
     };
 
     getPessoas();
-  }, [selectedPerson]);
-
+  }, []);
   function onPessoaSelect(username) {
     console.log(username);
     setSelectedPerson(username);
