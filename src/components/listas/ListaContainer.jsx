@@ -3,7 +3,7 @@ import './ListaContainer.css';
 import GameDetails from '../games/GameDetails';
 import { useState, useEffect } from 'react';
 
-export default function ListaContainer({ user, tipoLista }) {
+export default function ListaContainer({ donoLista, tipoLista, user, toggleSeletorVisivel }) {
 
     const [games, setGames] = useState(null);
     const [isGameSelected, setisGameSelected] = useState(false);
@@ -12,16 +12,18 @@ export default function ListaContainer({ user, tipoLista }) {
     const [isLoading, setIsLoading] = useState(false);
     const [gameData, setGameData] = useState(null);
 
+    // console.log("Lista container donoLista: ", donoLista);
     useEffect(() => {
         const checkList = async () => {
-            // console.log("chegameonlist");
-            if (!user) return;
+            console.log("chegameonlist");
+
+            if (!donoLista) return;
 
             try {
                 const res = await fetch("/listas/get-games-from-list", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ user, tipoLista }),
+                    body: JSON.stringify({ donoLista, tipoLista }),
                 });
 
                 if (res.ok) {
@@ -33,13 +35,13 @@ export default function ListaContainer({ user, tipoLista }) {
                 }
 
             } catch (err) {
-                setError("Erro ao verificar a lista do usuário.");
+                // setError("Erro ao verificar a lista do usuário.");
                 console.error(err);
             }
         };
-
+        if (!isGameSelected)
         checkList();
-    }, [user, isGameSelected, tipoLista]);
+    }, [donoLista, isGameSelected, tipoLista, user]);
 
     if (games === null || games.length === 0) {
         return <div className="empty-message">Nenhum jogo na lista</div>;
@@ -47,6 +49,7 @@ export default function ListaContainer({ user, tipoLista }) {
 
     async function onGameSelect(game) {
         setisGameSelected(true);
+        toggleSeletorVisivel(false);
 
 
         const gameId = game.jogo_id;
@@ -94,6 +97,7 @@ export default function ListaContainer({ user, tipoLista }) {
 
     const handleBackToList = () => {
         setisGameSelected(false);
+        toggleSeletorVisivel(true);
     };
 
     return (
@@ -131,7 +135,7 @@ export default function ListaContainer({ user, tipoLista }) {
             {isGameSelected && !isLoading && (
                 <>
                     <button className="back-button" onClick={handleBackToList}>
-                        Voltar para a lista
+                        Voltar para a lista de {donoLista}
                     </button>
                     <GameDetails game={gameData} user={user} />
 
