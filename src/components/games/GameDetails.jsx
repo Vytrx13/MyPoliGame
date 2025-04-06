@@ -20,12 +20,13 @@ export default function GameDetails({ game, user }) {
 
   useEffect(() => {
     const checkGameInList = async () => {
-      console.log("check game in list");
+      console.log("check gamessss in list");
       if (!user) {
         console.log("!user");
         return;
       }
-      // console.log("começando")
+      
+      console.log(user, gameId);
       try {
         // procurar se ja existe e se ja existe, preciso do rating tipo e do jogoNaLista
         // const gameId = game.id;

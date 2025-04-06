@@ -39,7 +39,7 @@ export default function ListaContainer({ donoLista, tipoLista, user, toggleSelet
                 console.error(err);
             }
         };
-
+        if (!isGameSelected)
         checkList();
     }, [donoLista, isGameSelected, tipoLista, user]);
 
@@ -135,7 +135,7 @@ export default function ListaContainer({ donoLista, tipoLista, user, toggleSelet
             {isGameSelected && !isLoading && (
                 <>
                     <button className="back-button" onClick={handleBackToList}>
-                        Voltar para a lista
+                        Voltar para a lista de {donoLista}
                     </button>
                     <GameDetails game={gameData} user={user} />
 

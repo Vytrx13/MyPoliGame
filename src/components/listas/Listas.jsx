@@ -1,5 +1,7 @@
 import { useState } from "react";
 import ListaContainer from "./ListaContainer";
+
+import './Listas.css'
 export default function Listas({ user, donoLista }) {
     const [tipoLista, setTipoLista] = useState("");
     const [seletorVisivel, setSeletorVisivel] = useState(true);
@@ -10,7 +12,8 @@ export default function Listas({ user, donoLista }) {
     return (
         <>
             {seletorVisivel && <>
-                <h2>Lista de {donoLista}</h2>
+                <h2 className="lista-titulo">Lista de {donoLista}</h2>
+
                 <div className="lista-selector">
                     <label htmlFor="tipoLista">Selecione a lista:</label>
                     <select
@@ -27,7 +30,7 @@ export default function Listas({ user, donoLista }) {
                     </select>
                 </div>
             </>}
-            <ListaContainer user={user} tipoLista={tipoLista} donoLista={donoLista} toggleSeletorVisivel={toggleSeletorVisivel}/>
+            <ListaContainer user={user} tipoLista={tipoLista} donoLista={donoLista} toggleSeletorVisivel={toggleSeletorVisivel} />
         </>
     );
 }

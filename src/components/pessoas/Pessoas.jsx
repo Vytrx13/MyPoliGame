@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Listas from "../listas/Listas";
 import "./Pessoas.css";
 
-export default function Pessoas({user}) {
+export default function Pessoas({ user }) {
   const [allUsers, setAllUsers] = useState(null);
   const [selectedPerson, setSelectedPerson] = useState("");
   const [error, setError] = useState(null);
@@ -27,11 +27,15 @@ export default function Pessoas({user}) {
     };
 
     getPessoas();
-  }, []);
+  }, [selectedPerson]);
 
   function onPessoaSelect(username) {
     console.log(username);
     setSelectedPerson(username);
+  }
+
+  function handleBackToList() {
+    setSelectedPerson("");
   }
 
   if (error) return <p className="error-message">{error}</p>;
@@ -51,10 +55,13 @@ export default function Pessoas({user}) {
   }
   if (selectedPerson) return (
     <>
-        <Listas user={user} donoLista={selectedPerson} />
+      <button className="back-button" onClick={handleBackToList}>
+        Voltar para a lista de pessoas
+      </button>
+      <Listas user={user} donoLista={selectedPerson} />
     </>
   );
-  
+
   return (
     <>
       <input
