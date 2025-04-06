@@ -106,8 +106,19 @@ router.post('/verify-token', async (req, res) => {
     const { token } = req.body;
     const username = obterUsernameDoToken(token);
     console.log('Username extraído do token:', username);
-    res.json({username});
-    
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        const user = result.rows[0];
+        if (!user) {
+            console.log("!user");
+            return res.status(400).send('Usuário não encontrado');
+
+        }
+        else res.json({username});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erro ao processar login');
+    }   
 });
 
 

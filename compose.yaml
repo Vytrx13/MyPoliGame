@@ -24,9 +24,6 @@ services:
             - node_modules/
         - action: rebuild
           path: package.json
-    depends_on:
-      backend:
-        condition: service_started
 
   backend:
     container_name: "mypoligame-backend"
