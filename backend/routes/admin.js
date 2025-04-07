@@ -30,6 +30,8 @@ router.post('/delete-user', async (req, res) => {
     try {
         await pool.query('DELETE FROM users WHERE username = $1', [username]);
         console.log("usuario deletado!");
+        await pool.query('DELETE FROM registro_lista WHERE username = $1', [username]);
+        console.log("registros deletados!");
         res.status(200).send("deu bom!");
 
     } catch (err) {
