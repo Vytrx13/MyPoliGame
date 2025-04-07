@@ -1,66 +1,64 @@
 import { useState, useEffect } from "react";
-import Listas from "../listas/Listas";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+// Removed Listas import as it's now handled by routing
 import "./Pessoas.css";
 
-export default function Pessoas({ user }) {
+// Renamed 'user' prop to 'currentUser' for clarity
+export default function Pessoas({ currentUser }) {
   const [allUsers, setAllUsers] = useState(null);
-  const [selectedPerson, setSelectedPerson] = useState("");
+  // Removed selectedPerson state
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Added loading state
+  const navigate = useNavigate(); // Get navigate function
 
   useEffect(() => {
     const getPessoas = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
         const res = await fetch("/listas/get-todas-pessoas");
 
         if (res.ok) {
           const users = await res.json();
-          console.log(users);
           setAllUsers(users);
         } else {
-          throw new Error("Erro ao buscar usuários.");
+           const errorText = await res.text();
+           throw new Error(errorText || "Erro ao buscar usuários.");
         }
       } catch (err) {
         console.error(err);
-        setError("Erro ao buscar usuários.");
+        setError(err.message || "Erro ao buscar usuários.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     getPessoas();
-  }, []);
-  function onPessoaSelect(username) {
-    console.log(username);
-    setSelectedPerson(username);
+  }, []); // Empty dependency array means this runs once on mount
+
+  // Function to handle clicking on a person card
+  function handlePessoaSelect(username) {
+    console.log("Navigating to list for:", username);
+    // Navigate to the dynamic list route for the selected user
+    navigate(`/listas/${username}`);
   }
 
-  function handleBackToList() {
-    setSelectedPerson("");
-  }
+  // Filtering logic remains the same
+   let filteredUsers = [];
+   if (allUsers) {
+     const term = searchTerm.toLowerCase();
+     filteredUsers = allUsers.filter((user) =>
+       user.username.toLowerCase().includes(term) // Use includes for broader search
+     );
+   }
 
+  // Render states: Loading, Error, No Users, Filtered Users
+  if (isLoading) return <p className="loading-message">Carregando pessoas...</p>;
   if (error) return <p className="error-message">{error}</p>;
-  if (!allUsers) return <p className="loading-message">Carregando...</p>;
-  if (allUsers.length === 0)
-    return <p className="empty-message">Nenhuma pessoa encontrada</p>;
+  if (!allUsers || allUsers.length === 0) return <p className="empty-message">Nenhuma pessoa encontrada.</p>;
 
-  let filteredUsers = [];
-
-  if (allUsers) {
-    const term = searchTerm.toLowerCase();
-
-    filteredUsers = allUsers.filter((user) => {
-      const username = user.username.toLowerCase();
-      return username.startsWith(term);
-    });
-  }
-  if (selectedPerson) return (
-    <>
-      <button className="back-button" onClick={handleBackToList}>
-        Voltar para a lista de pessoas
-      </button>
-      <Listas user={user} donoLista={selectedPerson} />
-    </>
-  );
-
+  // The main view with search and user grid
   return (
     <>
       <input
@@ -74,9 +72,12 @@ export default function Pessoas({ user }) {
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
             <div
-              key={user.username}
+              key={user.username} // Ensure unique key
               className="pessoa-card"
-              onClick={() => onPessoaSelect(user.username)}
+              onClick={() => handlePessoaSelect(user.username)} // Use handler
+              role="button" // Add role for accessibility
+              tabIndex={0} // Make it focusable
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handlePessoaSelect(user.username)} // Keyboard activation
             >
               <h4 className="pessoa-nome">{user.username}</h4>
             </div>

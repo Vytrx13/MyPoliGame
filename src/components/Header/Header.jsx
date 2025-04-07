@@ -1,33 +1,38 @@
 import "./Header.css";
-import HeaderButton from "./HeaderButton.jsx";
-export default function Header({ logado, changePage, usuario, logout }) {
+import HeaderButton from "./HeaderButton.jsx"; // Assuming HeaderButton is modified
+
+export default function Header({ logado, usuario, logout }) {
+
+  // Handler for logout button which needs to perform an action *and* potentially navigate
+  const handleLogout = () => {
+    logout();
+    // Navigation after logout will implicitly happen if the current route becomes protected
+    // Or you could explicitly navigate using useNavigate if Header was inside Router context
+  };
 
   return (
     <header>
       <p>MyPoliGame</p>
       {logado && <p>Bem vindo {usuario}!</p>}
       <nav>
-
         <ul>
-          <HeaderButton onSelect={() => changePage("home")}>Home</HeaderButton>
+          {/* Use the 'to' prop which HeaderButton will now use for <Link> */}
+          <HeaderButton to="/">Home</HeaderButton>
+          <HeaderButton to="/search">Jogos</HeaderButton>
+          <HeaderButton to="/pessoas">Pessoas</HeaderButton>
 
-          <HeaderButton onSelect={() => changePage("search")}>Jogos</HeaderButton>
+          {/* Conditional Rendering for Admin Link */}
+          {usuario === "admin" && <HeaderButton to="/admin">Admin</HeaderButton>}
 
-          <HeaderButton onSelect={() => changePage("pessoas")}>Pessoas</HeaderButton>
+          {/* Conditional Rendering for User-Specific Links */}
+          {logado && <HeaderButton to="/minha-lista">Minha lista</HeaderButton>}
 
-          {usuario === "admin" && <HeaderButton onSelect={() => changePage("admin")}>Admin</HeaderButton>}
+          {/* Conditional Rendering for Auth Links */}
+          {!logado && <HeaderButton to="/login">Fazer Login</HeaderButton>}
+          {!logado && <HeaderButton to="/register">Criar Conta</HeaderButton>}
 
-          {logado && <HeaderButton onSelect={() => changePage("lista")}>Minha lista</HeaderButton>}
-
-          {!logado && <HeaderButton onSelect={() => changePage("login")}>Fazer Login</HeaderButton>}
-
-          {!logado && <HeaderButton onSelect={() => changePage("register")}>Criar Conta</HeaderButton>}
-          
-          {logado && <HeaderButton onSelect={() => {
-            logout();
-            changePage("home");
-          }}>Logout</HeaderButton>}
-
+          {/* Logout Button - doesn't use 'to', uses onClick */}
+          {logado && <HeaderButton onClick={handleLogout}>Logout</HeaderButton>}
         </ul>
       </nav>
     </header>
