@@ -1,31 +1,94 @@
+/* src/components/Header/Header.css */
 header {
   display: flex;
+  /* Allow wrapping on small screens before stacking nav */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background-color: #3586ff;
-  padding: 15px 30px;
+  padding: 15px 20px; /* Slightly reduced padding */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  gap: 10px; /* Add gap for wrapped items */
 }
 
-header p {
+header p:first-child { /* Target the logo/title text */
   margin: 0;
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw + 0.5rem, 1.75rem); /* Responsive font size */
   color: #8d06e7;
   font-family: "Roboto Condensed", sans-serif;
   font-weight: bold;
+  flex-shrink: 0; /* Prevent title from shrinking too much */
+}
+
+header p:nth-child(2) { /* Target the welcome message */
+    font-size: clamp(0.8rem, 2vw + 0.5rem, 1rem);
+    text-align: center;
+    width: 100%; /* Take full width when wrapped */
+    order: 3; /* Move below nav on wrap */
+    margin-top: 5px;
+}
+
+
+nav {
+    width: 100%; /* Allow nav to take full width if needed */
+    order: 2; /* Default order */
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap; /* Allow buttons to wrap onto next line */
+  gap: 10px; /* Reduced gap */
   margin: 0;
   padding: 0;
+  justify-content: center; /* Center buttons when wrapped */
 }
 
 nav ul li {
-  display: flex;
+  display: flex; /* Keep li as flex container for the button/link */
+}
+
+/* --- Media Query for Smaller Screens (e.g., Tablets and Phones) --- */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column; /* Stack logo and nav */
+    padding: 10px 15px;
+  }
+
+  header p:first-child { /* Logo/Title */
+      margin-bottom: 10px; /* Add space below title */
+      text-align: center;
+      width: 100%;
+  }
+
+   header p:nth-child(2) { /* Welcome message */
+      order: 2; /* Place below title */
+      margin-top: 0;
+      margin-bottom: 10px;
+   }
+
+  nav {
+      width: 100%;
+      order: 3; /* Place nav last */
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons */
+    gap: 8px;
+  }
+
+  nav ul li {
+      width: 100%; /* Make list items take full width */
+      justify-content: center; /* Center button within li */
+  }
+
+  /* Ensure buttons inside li take appropriate width */
+  nav ul li > * { /* Target direct child (StyledLink or StyledButton) */
+      width: 100%;
+      max-width: 250px; /* Max width for stacked buttons */
+  }
 }

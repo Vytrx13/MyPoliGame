@@ -1,63 +1,119 @@
+/* src/components/admin/Admin.css */
 #admin-container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  #admin-title {
-    color: #333;
-  }
-  
-  #admin-error {
-    color: red;
-  }
-  
-  #admin-refresh-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  #admin-refresh-button:hover {
-    background-color: #45a049;
-  }
-  
-  #admin-users-title,
-  #admin-records-title {
-    margin-top: 20px;
-    color: #b2fd05;
-  }
-  
-  #admin-users-table,
-  #admin-records-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 20px auto; /* Center container */
+  padding: 0 15px; /* Add padding */
+  max-width: 100%;
+}
+
+#admin-title {
+  color: #ebe7ef; /* Match theme */
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.6rem, 5vw, 2rem);
+}
+
+#admin-error {
+  color: #f8d7da;
+  background-color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#admin-refresh-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  display: block; /* Make it block */
+  margin-left: auto; /* Push to right */
+  margin-right: auto; /* Center it */
+  width: fit-content; /* Size to content */
+}
+
+#admin-refresh-button:hover {
+  background-color: #45a049;
+}
+
+#admin-users-title,
+#admin-records-title {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #b2fd05;
+  text-align: center;
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+}
+
+/* Removed fixed width from tables */
+#admin-users-table,
+#admin-records-table {
+  /* width: 100%; */ /* Let container handle width */
+  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.1); /* Slight background */
+  margin: 0 auto; /* Center table if container is wider */
+}
+
+#admin-users-table th,
+#admin-users-table td,
+#admin-records-table th,
+#admin-records-table td {
+  border: 1px solid #5a5a5a; /* Darker border */
+  padding: 8px 12px; /* More padding */
+  text-align: left; /* Align text left */
+  font-size: 0.9rem;
+  vertical-align: middle; /* Align vertically */
+  word-break: break-word; /* Allow long text to wrap */
+}
+
+#admin-users-table th,
+#admin-records-table th {
+  background-color: rgba(0, 0, 0, 0.3); /* Darker header */
+  font-weight: bold;
+  white-space: nowrap; /* Prevent header text wrapping */
+}
+
+/* Zebra striping for readability */
+#admin-users-table tbody tr:nth-child(odd),
+#admin-records-table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+
+.delete-button {
+  background-color: #dc3545; /* Bootstrap danger red */
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* --- Media Query for Responsiveness --- */
+/* Apply the horizontal scroll container class in the JSX */
+/* Styles for the container are in index.css (.table-responsive-container) */
+
+/* Adjust padding/font on very small screens */
+@media (max-width: 480px) {
   #admin-users-table th,
   #admin-users-table td,
   #admin-records-table th,
   #admin-records-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+      padding: 6px 8px;
+      font-size: 0.8rem;
   }
-  
-  #admin-users-table th,
-  #admin-records-table th {
-    text-align: left;
+   .delete-button {
+      padding: 4px 8px;
+      font-size: 0.8rem;
   }
-  
-  .delete-button {
-    background-color: #f44336;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .delete-button:hover {
-    background-color: #d32f2f;
-  }
-  
+}

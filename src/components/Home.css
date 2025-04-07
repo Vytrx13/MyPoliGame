@@ -1,116 +1,211 @@
+/* src/components/Home.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'); /* Added for consistency if used */
+
+/* --- Background --- */
 .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-image: url('sua-imagem.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-  
-  .background img {
-    width: calc(100% / 6); /* Ajuste para definir quantas colunas */
-    height: auto;
-    opacity: 0.5; /* Escurecer imagens */
-    filter: blur(1px); /* Aplica o efeito de desfoque */
-    object-fit: cover;
-  }
-
-  .background::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    background: rgba(0, 0, 0, 0.7); /* Deixa o fundo escuro */
-  }
-
-  .overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 4rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 10px black;
-  }
-
-  h1 {
-    font-size: 70px;
-    color: rgb(255, 255, 255);
-}
-
-.App{
+  position: fixed; /* Use fixed to keep it static during scroll */
+  top: 0;
+  left: 0;
   width: 100%;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.inner{
-  display: flex;
-}
-
-.item{
-  min-height: 200px;
-  min-width: 400px;
-  padding: 14px;
-}
-
-.item img{
-  width: 100%;
-  height: 90%;
-  border-radius: 12px;
-  pointer-events: none;
-}
-
-.carousel{
-  display: flex;
-  justify-content: flex-start;
-  cursor: grab;
+  height: 100vh;
+  /* Consider using a single, optimized CSS background image for performance */
+  /* background-image: url('/path/to/your/optimized-background.jpg'); */
+  background-color: #1a0a2e; /* Fallback color */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2; /* Further back */
   overflow: hidden;
 }
 
-.resposta{
-  font-family: sans-serif;
-  font-size: 1.5rem;
-  color: rgb(209, 198, 198);
+/* Hide the individual img tags if using CSS background */
+.background img {
+  display: none;
 }
 
-h1{
-  font-size: 4rem;
+.background::after {
+  content: "";
+  position: absolute; /* Should be absolute within the fixed parent */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65); /* Slightly adjusted overlay */
+  z-index: -1; /* Between background and content */
 }
 
-h2{
-  font-size: 2rem;
-  color: white;
+/* --- General Layout & Typography --- */
+/* .App styling removed as it's likely global or in index.css */
+
+.home-container { /* Add a wrapper div in Home.jsx if needed for structure */
+  padding: 1rem 0;
 }
 
-.recomendado{
-  border: 5px solid #ddd;
-  margin: 0px;
+h1, h2 {
+  text-align: center;
+  padding: 0 15px; /* Horizontal padding */
+  margin-bottom: 0.75em; /* Spacing below headings */
+  margin-top: 1.5em; /* Spacing above headings */
+  font-family: 'Poppins', sans-serif; /* Optional: Consistent font */
+  color: #ffffff; /* Ensure visibility */
+}
+/* Use clamp values from index.css or define specifics here */
+h1 { font-size: clamp(1.8rem, 5vw + 1rem, 3rem); }
+h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
+
+.resposta {
+  padding: 0 20px; /* More padding */
+  margin-bottom: 1.5em; /* Space below paragraphs */
+  text-align: center;
+  font-family: sans-serif; /* Keeping original font */
+  font-size: clamp(1rem, 2.5vw + 0.5rem, 1.2rem); /* Adjusted max size */
+  color: #d1c6c6; /* Slightly adjusted color */
+  line-height: 1.6; /* Improve readability */
+}
+
+/* --- Logo --- */
+.Logo {
+  display: block;
+  width: 70%; /* Adjust width */
+  max-width: 350px; /* Adjust max-width */
+  height: auto; /* Maintain aspect ratio */
+  margin: 3rem auto 2rem auto; /* Adjust vertical margins */
+  /* Removed transform - relies on margin:auto */
+}
+
+/* --- Carousel Section --- */
+.recomendado {
+  border: 3px solid #555; /* Darker border */
+  background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
+  border-radius: 10px; /* Rounded corners */
   padding: 20px;
+  margin: 2rem auto; /* Spacing and centering */
+  width: 95%;
+  max-width: 1200px; /* Max width for the section */
+  overflow: hidden; /* Contain children */
 }
 
-.recomendado2{
-  display: inline-block;
-  border: 5px solid #ddd;
-  margin: 0px;
+.recomendado h2 {
+  margin-top: 0; /* Remove top margin for section title */
+  margin-bottom: 1.5rem; /* Space below title */
+  color: #e0e0e0;
+}
+
+.carousel {
+  /* display: flex; (redundant, handled by motion component) */
+  cursor: grab;
+  overflow: hidden; /* Crucial for containing the inner div */
+  width: 100%; /* Ensure it takes the width of .recomendado */
+}
+
+.carousel:active {
+    cursor: grabbing; /* Feedback while dragging */
+}
+
+.inner {
+  display: flex; /* This is essential for horizontal layout */
+  /* Width is calculated dynamically by framer-motion's drag */
+}
+
+.item {
+  min-width: 300px; /* Base width for carousel items */
+  height: 220px; /* Give items a fixed height */
+  padding: 10px;
+  flex-shrink: 0; /* Prevent shrinking */
+  box-sizing: border-box; /* Include padding in width/height */
+  display: flex; /* Use flex for image alignment */
+  align-items: center; /* Center image vertically */
+  justify-content: center; /* Center image horizontally */
+}
+
+.item img {
+  display: block; /* Remove extra space below image */
+  width: auto;  /* Let width adjust based on height */
+  height: 100%; /* Fill the fixed height of .item */
+  max-width: 100%; /* Prevent exceeding item padding */
+  object-fit: contain; /* Maintain aspect ratio, fit within bounds (use 'cover' to fill and crop) */
+  border-radius: 8px; /* Rounded corners on the image */
+  pointer-events: none; /* Keep this */
+  background-color: rgba(0,0,0,0.2); /* BG while loading */
+}
+
+
+/* --- Other Sections (.recomendado2) --- */
+.recomendado2 {
+  display: block; /* Stack vertically */
+  border: 3px solid #555;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
   padding: 20px;
+  margin: 2rem auto;
+  width: 95%;
+  max-width: 700px; /* Smaller max-width for these sections */
 }
 
-.center{
-  display: flex;
-  justify-content: center;
+.recomendado2 h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #e0e0e0;
 }
 
-.Logo{
-  width: 500px;
-  height: 500px;
+.center { /* This class was on h2, text-align:center handles it */
+  /* display: flex; (Remove this if only used for centering text) */
+  /* justify-content: center; */
+  text-align: center;
+}
+
+.recomendado2 img {
+  display: block;
+  max-width: 90%; /* Limit image width within container */
+  height: auto;
+  margin: 1rem auto; /* Center images */
+  border-radius: 8px; /* Optional rounding */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow */
+}
+
+
+/* --- Media Queries --- */
+@media (max-width: 768px) {
+  .Logo {
+      max-width: 300px;
+      margin: 2rem auto 1.5rem auto;
+  }
+
+  .item {
+      min-width: 240px; /* Smaller carousel items */
+      height: 180px; /* Adjust height */
+  }
+
+  h1 { font-size: clamp(1.6rem, 6vw + 0.8rem, 2.5rem); }
+  h2 { font-size: clamp(1.3rem, 5vw + 0.6rem, 2rem); }
+  .resposta { font-size: clamp(0.95rem, 2.8vw + 0.4rem, 1.1rem); }
+
+  .recomendado, .recomendado2 {
+      padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Logo {
+      max-width: 250px;
+      margin: 1.5rem auto;
+  }
+
+  .item {
+      min-width: 200px; /* Even smaller items */
+      height: 150px; /* Adjust height */
+      padding: 8px;
+  }
+
+  .recomendado {
+      padding: 10px;
+  }
+
+  .recomendado h2 {
+      margin-bottom: 1rem;
+  }
+
+  h1 { font-size: clamp(1.5rem, 8vw, 2rem); }
+  h2 { font-size: clamp(1.2rem, 6vw, 1.6rem); }
+  .resposta { font-size: clamp(0.9rem, 3.5vw, 1rem); padding: 0 10px;}
 }

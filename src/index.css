@@ -1,4 +1,4 @@
-
+/* src/index.css */
 * {
   box-sizing: border-box;
 }
@@ -16,18 +16,56 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll on body */
 }
 
 #root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll on root */
 }
 
 main {
   width: 90%;
-  max-width: 50rem;
-  margin: auto;
+  max-width: 50rem; /* Existing max-width is good */
+  margin: 1rem auto; /* Added top/bottom margin */
   flex: 1;
 }
 
+/* General responsive font size adjustments (Optional but recommended) */
+h1, h2, h3, h4, p, button, input, select, label {
+    font-size: clamp(0.875rem, 1.5vw + 0.5rem, 1.125rem); /* Example fluid typography */
+}
+
+h1 { font-size: clamp(1.75rem, 5vw + 1rem, 3rem); }
+h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
+h3 { font-size: clamp(1.25rem, 3vw + 0.6rem, 1.75rem); }
+
+/* Specific overrides will exist in component CSS */
+
+/* Add a class for horizontal scrolling tables */
+.table-responsive-container {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    margin-bottom: 1rem; /* Add some space below the scrolling table */
+}
+
+.table-responsive-container table {
+    min-width: 600px; /* Force table to be at least this wide, triggering scroll */
+}
+
+/* Basic Button/Input Resizing */
+button, input[type="text"], input[type="password"], input[type="submit"], select {
+    padding: 0.6em 1em;
+    font-size: 0.95rem; /* Adjust base size */
+}
+
+.back-button {
+    display: block; /* Make it block level for better spacing */
+    width: fit-content; /* Adjust width */
+    margin-bottom: 1.5em;
+    margin-left: 0; /* Remove fixed margin */
+}

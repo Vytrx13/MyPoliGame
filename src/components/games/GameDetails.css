@@ -1,109 +1,167 @@
-
-.game-content {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 20px;
-}
-
-.game-content img {
-    width: 300px;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+/* src/components/games/GameDetails.css */
 
 .game-header {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .game-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #f7f7f7;
+  font-size: clamp(1.5rem, 4vw + 0.8rem, 2rem); /* Responsive H1 */
+  font-weight: 700;
+  color: #f7f7f7;
+  padding: 0 10px;
 }
 
-/* Estilo para o container do formulário GPT GOES HARD ON CSS BABY
-/* Estilização básica para o contêiner do formulário */
-form {
+.game-content {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 25px; /* Slightly larger gap */
 }
 
-/* Estilização para os rótulos dos campos */
+.game-content img {
+  width: 300px;
+  max-width: 40%; /* Limit image width relative to container */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.game-info {
+  flex-grow: 1; /* Allow info section to take remaining space */
+  min-width: 55%; /* Ensure it has some minimum width on larger screens */
+}
+
+/* Form Styles - Keep existing, they should wrap okay */
+form {
+display: flex;
+flex-direction: column;
+gap: 15px;
+margin-top: 20px;
+}
+
 label,
 .jogo-na-lista {
-  font-weight: bold;
-  margin-bottom: 5px;
+font-weight: bold;
+margin-bottom: 5px;
+font-size: 0.95rem; /* Adjust size */
+}
+.jogo-na-lista strong {
+  color: #a2facf; /* Highlight status */
 }
 
-
-/* Estilização para os selects personalizados */
 .custom-select {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  font-size: 16px;
-  appearance: none; /* Remove a aparência padrão do sistema */
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Ícone de seta */
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
-  cursor: pointer;
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc; /* Thinner border */
+border-radius: 4px;
+background-color: #fff;
+font-size: 0.95rem; /* Adjust size */
+appearance: none;
+background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+background-repeat: no-repeat;
+background-position: right 10px center;
+background-size: 12px;
+cursor: pointer;
+color: #333; /* Ensure text is visible */
 }
 
-/* Estilização para os selects quando focados */
 .custom-select:focus {
-  border-color: #007bff;
-  outline: none;
+border-color: #007bff;
+outline: none;
+box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Add focus shadow */
 }
 
-/* Estilização para o botão de submissão */
+.custom-button, .remover {
+padding: 10px 15px;
+color: #000000;
+border: none;
+border-radius: 4px;
+font-size: 0.95rem; /* Adjust size */
+cursor: pointer;
+transition: background-color 0.3s, color 0.3s, opacity 0.3s;
+text-align: center;
+}
 .custom-button {
-  padding: 10px 15px;
   background-color: #f3f3f3;
-  color: #000000;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
-
-/* Estilização para o botão de submissão quando hover */
-.custom-button:hover {
-  background-color: #0056b3;
-  color: white;
+.custom-button:hover:not(:disabled) {
+background-color: #0056b3;
+color: white;
 }
-
+.custom-button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 
 .remover {
-  background-color: white;
-  color: #000000;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+background-color: #f8d7da; /* Light red background */
+color: #721c24; /* Dark red text */
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+margin-top: 5px; /* Add slight spacing */
 }
 
 .remover:hover {
-  background-color: #e72806;
-  color: white;
+background-color: #e72806;
+color: white;
 }
 
 
 .error-message {
-  background-color: #e72806;
-  color: white;
+background-color: #e72806;
+color: white;
+padding: 10px;
+border-radius: 4px;
+margin-bottom: 15px;
+text-align: center;
+}
+
+/* Game Info Text */
+.game-info p {
+  margin-bottom: 0.8em;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.game-info p strong {
+  color: #c7d3ff; /* Highlight labels */
+}
+
+
+/* --- Media Query for Tablets and Phones --- */
+@media (max-width: 768px) {
+.game-content {
+  flex-direction: column; /* Stack image and info */
+  align-items: center; /* Center items */
+  gap: 20px;
+}
+
+.game-content img {
+  width: 80%; /* Allow image to be larger */
+  max-width: 350px; /* But not excessively large */
+  height: auto;
+  margin-bottom: 1rem; /* Add space below image */
+}
+
+.game-info {
+    width: 100%; /* Take full width */
+    min-width: unset; /* Remove min-width */
+}
+}
+
+/* --- Media Query for Small Phones --- */
+@media (max-width: 480px) {
+   .game-header h1 {
+      font-size: clamp(1.3rem, 5vw + 0.6rem, 1.7rem);
+  }
+  .game-content img {
+      width: 95%;
+      max-width: 300px;
+  }
+   label, .jogo-na-lista, .custom-select, .custom-button, .remover, .game-info p {
+      font-size: 0.9rem; /* Slightly smaller fonts */
+  }
 }
