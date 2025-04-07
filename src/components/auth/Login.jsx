@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-
+import './Auth.css';
 function Login({ setUser }) { // Removed changePage prop
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,22 +52,26 @@ function Login({ setUser }) { // Removed changePage prop
   };
 
   return (
-    <div>
-      <p>Fazer login</p>
-      <input
-        placeholder="Usuário"
-        value={username} // Controlled component
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password} // Controlled component
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && login()}
-      />
-      <button onClick={login}>Entrar</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="auth-container">
+      <h2 className="auth-title">Fazer login</h2>
+      <div className="auth-form">
+        <input
+          placeholder="Usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="auth-input"
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && login()}
+          className="auth-input"
+        />
+        <button onClick={login} className="auth-button">Entrar</button>
+        {error && <p className="auth-error">{error}</p>}
+      </div>
     </div>
   );
 }

@@ -69,3 +69,16 @@ button, input[type="text"], input[type="password"], input[type="submit"], select
     margin-bottom: 1.5em;
     margin-left: 0; /* Remove fixed margin */
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure game images don't overflow */
+.game-image, .game-content img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}

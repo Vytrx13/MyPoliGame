@@ -66,11 +66,12 @@ h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
 /* --- Logo --- */
 .Logo {
   display: block;
-  width: 70%; /* Adjust width */
-  max-width: 350px; /* Adjust max-width */
-  height: auto; /* Maintain aspect ratio */
-  margin: 3rem auto 2rem auto; /* Adjust vertical margins */
-  /* Removed transform - relies on margin:auto */
+  width: 70%;
+  max-width: 350px;
+  height: auto;
+  margin: 2rem auto;
+  transform: none; /* Remove the animation that was pushing it right */
+  animation: none;
 }
 
 /* --- Carousel Section --- */
@@ -187,8 +188,9 @@ h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
 
 @media (max-width: 480px) {
   .Logo {
-      max-width: 250px;
-      margin: 1.5rem auto;
+    width: 90%;
+    max-width: 250px;
+    margin: 1.5rem auto;
   }
 
   .item {

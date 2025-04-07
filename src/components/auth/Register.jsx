@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-
+import './Auth.css'
 function Register({ setUser }) { // Removed changePage prop
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,22 +52,26 @@ function Register({ setUser }) { // Removed changePage prop
   };
 
   return (
-    <div>
-        <p>criar conta</p>
-      <input
-        placeholder="Usuário"
-        value={username} // Controlled component
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password} // Controlled component
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && register()}
-      />
-      <button onClick={register}>Registrar</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="auth-container">
+      <h2 className="auth-title">Criar conta</h2>
+      <div className="auth-form">
+        <input
+          placeholder="Usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="auth-input"
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && register()}
+          className="auth-input"
+        />
+        <button onClick={register} className="auth-button">Registrar</button>
+        {error && <p className="auth-error">{error}</p>}
+      </div>
     </div>
   );
 }

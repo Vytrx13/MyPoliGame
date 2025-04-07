@@ -1,6 +1,7 @@
 import { useState } from "react";
 import GamesContainer from "./GamesContainer.jsx";
 import GameDetails from "./GameDetails.jsx";
+import './Search.css';
 
 // Changed prop name from 'user' to 'currentUser'
 export default function Search({ currentUser }) {
