@@ -33,25 +33,24 @@ const StyledLink = styled(Link)`
   }
 `;
 
+// Keep existing imports and StyledButton/StyledLink components
+
 export default function HeaderButton({ children, to, onClick }) {
-  // If 'to' prop is provided, render a Link wrapping the styled button
   if (to) {
     return (
       <li>
-        <StyledLink to={to}>
-          {/* Pass button styling via className or keep StyledButton */}
-          <StyledButton as="span"> {/* Render button as span for semantics inside link */}
-             {children}
+        <StyledLink to={to} className="nav-link">
+          <StyledButton as="span">
+            {children}
           </StyledButton>
         </StyledLink>
       </li>
     );
   }
 
-  // If 'onClick' prop is provided, render a regular button
   return (
     <li>
-      <StyledButton onClick={onClick}>
+      <StyledButton onClick={onClick} className="nav-link">
         {children}
       </StyledButton>
     </li>
