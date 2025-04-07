@@ -87,7 +87,7 @@ export default function Home({ changePage }) {
     const carouselRef = useRef();
     const innerRef = useRef();
     const [width, setWidth] = useState(0);
-    const [recomendados, setRecomendados] = useState(() => gerarRecomendados(20)); // ou qualquer número de jogos
+    const [recomendados, setRecomendados] = useState(() => gerarRecomendados(10)); 
 
 
 
