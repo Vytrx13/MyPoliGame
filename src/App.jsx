@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 
-// pages
+// paginas
 import Home from './components/Home.jsx';
 import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import Search from './components/games/Search.jsx';
 import Listas from './components/listas/Listas.jsx';
 import Pessoas from './components/pessoas/Pessoas.jsx';
+import Admin from './components/admin/Admin.jsx';
+
 
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -59,6 +61,7 @@ function App() {
         {currentPage === "search" && <Search user={user} />}
         {currentPage === "lista" && <Listas user={user} donoLista={user}/>}
         {currentPage === "pessoas" && <Pessoas user={user}/>}
+        {currentPage === "admin" && <Admin/>}
       </main>
       <Footer />
     </>

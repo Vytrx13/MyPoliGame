@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const gamesRoutes = require('./routes/games'); // Importa as rotas de jogos
 const listasRoutes = require('./routes/listas'); // listas
+const adminRoutes = require('./routes/admin');
 require('dotenv').config();
 
 const app = express();
@@ -15,6 +16,9 @@ app.use(cors());
 
 // Usar as rotas de autenticação
 app.use('/auth', authRoutes);
+
+// Usar as rotas de admin
+app.use('/admin', adminRoutes); // Usa as rotas de admin
 
 
 app.use('/games', gamesRoutes); // Usa as rotas de jogos

@@ -10,12 +10,19 @@ export default function Header({ logado, changePage, usuario, logout }) {
 
         <ul>
           <HeaderButton onSelect={() => changePage("home")}>Home</HeaderButton>
+
           <HeaderButton onSelect={() => changePage("search")}>Jogos</HeaderButton>
+
           <HeaderButton onSelect={() => changePage("pessoas")}>Pessoas</HeaderButton>
-          <HeaderButton>Sobre</HeaderButton>
+
+          {usuario === "admin" && <HeaderButton onSelect={() => changePage("admin")}>Admin</HeaderButton>}
+
           {logado && <HeaderButton onSelect={() => changePage("lista")}>Minha lista</HeaderButton>}
+
           {!logado && <HeaderButton onSelect={() => changePage("login")}>Fazer Login</HeaderButton>}
+
           {!logado && <HeaderButton onSelect={() => changePage("register")}>Criar Conta</HeaderButton>}
+          
           {logado && <HeaderButton onSelect={() => {
             logout();
             changePage("home");
