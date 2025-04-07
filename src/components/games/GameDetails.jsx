@@ -137,7 +137,7 @@ export default function GameDetails({ game, user }) {
       <div className="game-content">
         <img src={imageUrl} alt={game.name} />
         <div className="game-info">
-          {user !== null && (
+          {user !== null ? (
             <form onSubmit={handleSubmit}>
               {isChecking ? (
                 <p>Verificando lista...</p>
@@ -214,7 +214,7 @@ export default function GameDetails({ game, user }) {
                 </>
               )}
             </form>
-          )}
+          ) : <p>Faça Login ou crie uma conta para adicionar jogos à suas listas</p>}
 
           {/* Informações adicionais sobre o jogo */}
           <p>
