@@ -6,7 +6,60 @@ export default function Admin() {
   const [registros, setRegistros] = useState([]);
   const [error, setError] = useState(null);
 
-  // ... (fetchData, handleDeleteUser, handleDeleteRegistro functions remain the same) ...
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/admin/get-tables');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados');
+      }
+      const data = await response.json();
+      setUsuarios(data.usuarios);
+      setRegistros(data.registros);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleDeleteUser = async (username) => {
+    if (!window.confirm(`Tem certeza que deseja deletar o usuário ${username}?`)) {
+      return;
+    }
+    try {
+      const response = await fetch('/admin/delete-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username }),
+      });
+      if (!response.ok) {
+        throw new Error('Erro ao deletar usuário');
+      }
+      fetchData(); // Atualizar os dados após a exclusão
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  
+  const handleDeleteRegistro = async (id) => {
+    if (!window.confirm(`Tem certeza que deseja deletar o registro com ID ${id}?`)) {
+      return;
+    }
+    try {
+      const response = await fetch('/admin/delete-registro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      if (!response.ok) {
+        throw new Error('Erro ao deletar registro');
+      }
+      fetchData(); // Atualizar os dados após a exclusão
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
 
    // Fetch data on component mount
    useEffect(() => {
@@ -27,7 +80,7 @@ export default function Admin() {
           <table id="admin-users-table" border="1"> {/* Keep border for now, CSS can override */}
             <thead>
               <tr>
-                <th>ID</th>
+                <th>ID do Usuário</th>
                 <th>Nome de Usuário</th>
                 <th>Ações</th>
               </tr>
@@ -58,7 +111,7 @@ export default function Admin() {
           <table id="admin-records-table" border="1"> {/* Keep border for now */}
             <thead>
               <tr>
-                <th>ID</th>
+                <th>ID do registro</th>
                 <th>Nome de Usuário</th>
                 <th>Tipo</th>
                 <th>ID do Jogo</th>
