@@ -87,7 +87,7 @@ export default function Home({ changePage }) {
     const carouselRef = useRef();
     const innerRef = useRef();
     const [width, setWidth] = useState(0);
-    const [recomendados, setRecomendados] = useState(() => gerarRecomendados(10)); 
+    const [recomendados, setRecomendados] = useState(() => gerarRecomendados(10));
 
 
 
@@ -112,7 +112,18 @@ export default function Home({ changePage }) {
                 <img src={game6_URL} alt="Game 6" />
             </div>
             <div style={{ height: '35vh' }}></div>
-            <motion.img className="Logo" src="./image/Logo.png" animate={{ x: 150 }} />
+            <motion.img
+                className="Logo"
+                src="./image/Logo.png"
+                initial={{ x: 150, opacity: 0 }} // Starts off-screen right and invisible
+                animate={{ x: 0, opacity: 1 }}   // Moves to center (x:0) and fades in
+                transition={{
+                    type: "spring",
+                    stiffness: 50,
+                    damping: 10,
+                    duration: 0.8
+                }}
+            />
             <h2>O que é o MyPoligame?</h2>
             <p className="resposta">O MyPoliGame é um lugar para montar sua coleção de jogos, onde você pode avaliar e listar os jogos de qualquer plataforma
                 para compartilhar com seus amigos e com a comunidade seus gostos e seus feedbacks com a comunidade do jogo. </p>

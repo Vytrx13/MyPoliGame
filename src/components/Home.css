@@ -69,9 +69,8 @@ h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
   width: 70%;
   max-width: 350px;
   height: auto;
-  margin: 2rem auto;
-  transform: none; /* Remove the animation that was pushing it right */
-  animation: none;
+  margin: 2rem auto; /* This ensures it stays centered after animation */
+  position: relative; /* Needed for proper animation */
 }
 
 /* --- Carousel Section --- */
@@ -168,7 +167,7 @@ h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
 /* --- Media Queries --- */
 @media (max-width: 768px) {
   .Logo {
-      max-width: 300px;
+      max-width: 768px;
       margin: 2rem auto 1.5rem auto;
   }
 
@@ -187,10 +186,12 @@ h2 { font-size: clamp(1.5rem, 4vw + 0.8rem, 2.25rem); }
 }
 
 @media (max-width: 480px) {
-  .Logo {
-    width: 90%;
-    max-width: 250px;
-    margin: 1.5rem auto;
+  @media (max-width: 480px) {
+    .Logo {
+      width: 90%;
+      max-width: 250px;
+      margin: 1.5rem auto;
+    }
   }
 
   .item {
