@@ -3,7 +3,6 @@ import "./GameDetails.css";
 
 // Changed prop name from 'user' to 'currentUser'
 export default function GameDetails({ game, currentUser }) {
-
   const [selectedList, setSelectedList] = useState("");
   const [score, setScore] = useState("");
   const [currentList, setCurrentList] = useState("");
@@ -13,11 +12,12 @@ export default function GameDetails({ game, currentUser }) {
   const [isChecking, setIsChecking] = useState(true); // For loading list status
   const [registroId, setRegistroId] = useState(null); // Store the ID for potential updates/deletes
 
-
   // Ensure game object exists before trying to access its properties
   if (!game) {
-      // Or return a loading state, or a specific error message
-      return <div className="loading-message">Carregando detalhes do jogo...</div>;
+    // Or return a loading state, or a specific error message
+    return (
+      <div className="loading-message">Carregando detalhes do jogo...</div>
+    );
   }
 
   const gameId = game.id;
@@ -33,13 +33,13 @@ export default function GameDetails({ game, currentUser }) {
       // Use 'currentUser' prop for the check
       if (!currentUser || !gameId) {
         if (isMounted) {
-            setJogoNaLista(false);
-            setSelectedList("");
-            setScore("");
-            setCurrentList("");
-            setCurrentScore(0);
-            setRegistroId(null);
-            setIsChecking(false);
+          setJogoNaLista(false);
+          setSelectedList("");
+          setScore("");
+          setCurrentList("");
+          setCurrentScore(0);
+          setRegistroId(null);
+          setIsChecking(false);
         }
         return;
       }
@@ -71,10 +71,14 @@ export default function GameDetails({ game, currentUser }) {
             setRegistroId(null);
           }
         } else if (!res.ok && isMounted) {
-             // Handle non-OK responses from the check endpoint
-             const errorData = await res.json().catch(() => ({ message: `HTTP error ${res.status}` }));
-             setError(errorData.message || `Erro ${res.status} ao verificar lista.`);
-             setJogoNaLista(false); // Assume not in list on error
+          // Handle non-OK responses from the check endpoint
+          const errorData = await res
+            .json()
+            .catch(() => ({ message: `HTTP error ${res.status}` }));
+          setError(
+            errorData.message || `Erro ${res.status} ao verificar lista.`
+          );
+          setJogoNaLista(false); // Assume not in list on error
         }
       } catch (err) {
         if (isMounted) {
@@ -90,9 +94,10 @@ export default function GameDetails({ game, currentUser }) {
     checkGameInList();
 
     // Cleanup function to set isMounted to false when the component unmounts
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [currentUser, gameId]); // Dependency array includes currentUser and gameId
-
 
   const handleSelectChange = (event) => {
     setSelectedList(event.target.value);
@@ -106,14 +111,19 @@ export default function GameDetails({ game, currentUser }) {
     event.preventDefault();
     setError(null); // Clear previous errors
 
-    if (!selectedList || score === "") {
-        setError("Por favor, selecione uma lista e uma nota.");
-        return;
+    if (!selectedList) {
+      setError("Por favor, selecione uma lista");
+      return;
+    }
+
+    if (selectedList !== "Lista-de-desejos" && score === "") {
+      setError("Por favor, selecione uma nota.");
+      return;
     }
 
     if (!currentUser) {
-        setError("Você precisa estar logado para adicionar/atualizar jogos.");
-        return;
+      setError("Você precisa estar logado para adicionar/atualizar jogos.");
+      return;
     }
 
     try {
@@ -122,30 +132,41 @@ export default function GameDetails({ game, currentUser }) {
         headers: { "Content-Type": "application/json" },
         // Backend expects 'user', pass currentUser
         body: JSON.stringify({
-            user: currentUser,
-            selectedList,
-            gameId,
-            gameName,
-            imageUrl,
-            score: parseInt(score, 10) // Ensure score is sent as number
+          user: currentUser,
+          selectedList,
+          gameId,
+          gameName,
+          imageUrl,
+          score: parseInt(score, 10), // Ensure score is sent as number
         }),
       });
 
       if (res.ok) {
-          const result = await res.json();
-          alert(result.message || `Jogo ${jogoNaLista ? 'atualizado na' : 'adicionado à'} lista: ${selectedList} com nota: ${score}`);
-          // Update local state to reflect changes immediately
-          setCurrentList(selectedList);
-          setCurrentScore(parseInt(score, 10));
-          setJogoNaLista(true); // Now it's definitely in the list
-          // Re-fetch the check to get the potentially new registroId if needed, or update from response if backend sends it
-          // For simplicity, we'll just update the known state here.
+        const result = await res.json();
+        alert(
+          result.message ||
+            `Jogo ${
+              jogoNaLista ? "atualizado na" : "adicionado à"
+            } lista: ${selectedList} com nota: ${score}`
+        );
+        // Update local state to reflect changes immediately
+        setCurrentList(selectedList);
+        setCurrentScore(parseInt(score, 10));
+        setJogoNaLista(true); // Now it's definitely in the list
+        // Re-fetch the check to get the potentially new registroId if needed, or update from response if backend sends it
+        // For simplicity, we'll just update the known state here.
       } else {
-          const errorData = await res.json().catch(() => ({ message: `HTTP error ${res.status}` }));
-          setError(errorData.message || `Erro ${res.status} ao ${jogoNaLista ? 'atualizar' : 'adicionar'} jogo.`);
-          console.error("Submit error data:", errorData);
+        const errorData = await res
+          .json()
+          .catch(() => ({ message: `HTTP error ${res.status}` }));
+        setError(
+          errorData.message ||
+            `Erro ${res.status} ao ${
+              jogoNaLista ? "atualizar" : "adicionar"
+            } jogo.`
+        );
+        console.error("Submit error data:", errorData);
       }
-
     } catch (err) {
       setError("Erro de rede ao salvar na lista.");
       console.error("Submit network error:", err);
@@ -155,20 +176,22 @@ export default function GameDetails({ game, currentUser }) {
   async function handleRemover() {
     setError(null); // Clear previous errors
 
-     if (!currentUser) {
-        setError("Você precisa estar logado para remover jogos.");
-        return;
+    if (!currentUser) {
+      setError("Você precisa estar logado para remover jogos.");
+      return;
     }
 
-    if (!window.confirm("Tem certeza que deseja remover este jogo da sua lista?")) {
-        return;
+    if (
+      !window.confirm("Tem certeza que deseja remover este jogo da sua lista?")
+    ) {
+      return;
     }
 
     try {
       const res = await fetch("/listas/remove", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-         // Backend expects 'user', pass currentUser
+        // Backend expects 'user', pass currentUser
         body: JSON.stringify({ user: currentUser, gameId }),
       });
 
@@ -182,9 +205,11 @@ export default function GameDetails({ game, currentUser }) {
         setScore("");
         setRegistroId(null);
       } else {
-          const errorData = await res.json().catch(() => ({ message: `HTTP error ${res.status}` }));
-          setError(errorData.message || `Erro ${res.status} ao remover o jogo.`);
-          console.error("Remove error data:", errorData);
+        const errorData = await res
+          .json()
+          .catch(() => ({ message: `HTTP error ${res.status}` }));
+        setError(errorData.message || `Erro ${res.status} ao remover o jogo.`);
+        console.error("Remove error data:", errorData);
       }
     } catch (err) {
       setError("Erro de rede ao remover jogo da lista");
@@ -216,12 +241,17 @@ export default function GameDetails({ game, currentUser }) {
               ) : (
                 <>
                   <label htmlFor="game-list">
-                    {jogoNaLista ? "Atualizar status na sua lista:" : "Adicionar à sua lista:"}
+                    {jogoNaLista
+                      ? "Atualizar status na sua lista:"
+                      : "Adicionar à sua lista:"}
                   </label>
 
                   {jogoNaLista && (
                     <p className="jogo-na-lista">
-                      Status atual: <strong>Lista: {currentList}, Nota: {currentScore ?? 'N/A'}</strong>
+                      Status atual:{" "}
+                      <strong>
+                        Lista: {currentList}, Nota: {currentScore ?? "N/A"}
+                      </strong>
                     </p>
                   )}
 
@@ -242,37 +272,37 @@ export default function GameDetails({ game, currentUser }) {
                     <option value="Dropado">Dropado</option>
                   </select>
 
-                  <label htmlFor="game-score">
-                    Nota:
-                  </label>
+                  {selectedList !== "Lista-de-desejos" && (
+                    <>
+                      <label htmlFor="game-score">Nota:</label>
 
-                  <select
-                    id="game-score"
-                    name="game-score"
-                    value={score}
-                    onChange={handleScoreChange}
-                    className="custom-select"
-                    required // Make score mandatory
-                  >
-                    <option value="" disabled>
-                      Selecione uma nota...
-                    </option>
-                    {/* Generate options 0-10 */}
-                    {[...Array(11).keys()].map((num) => (
-                      <option key={num} value={String(num)}>
-                        {num}
-                      </option>
-                    ))}
-                  </select>
+                      <select
+                        id="game-score"
+                        name="game-score"
+                        value={score}
+                        onChange={handleScoreChange}
+                        className="custom-select"
+                        required
+                      >
+                        <option value="" disabled>
+                          Selecione uma nota...
+                        </option>
+                        {[...Array(11).keys()].map((num) => (
+                          <option key={num} value={String(num)}>
+                            {num}
+                          </option>
+                        ))}
+                      </select>
+                    </>
+                  )}
 
                   {/* Submit Button: Enable only if list and score are selected */}
                   <input
-                      type="submit"
-                      value={jogoNaLista ? "Atualizar" : "Adicionar"}
-                      className="custom-button"
-                      disabled={!selectedList || score === ""} // Disable if no selection
+                    type="submit"
+                    value={jogoNaLista ? "Atualizar" : "Adicionar"}
+                    className="custom-button"
+                    disabled={!selectedList || (score === "" && selectedList !== 'Lista-de-desejos')} 
                   />
-
 
                   {/* Remove Button: Show only if the game is already in the list */}
                   {jogoNaLista && (
@@ -288,8 +318,10 @@ export default function GameDetails({ game, currentUser }) {
               )}
             </form>
           ) : (
-             // Message for logged-out users
-            <p>Faça Login ou crie uma conta para adicionar jogos às suas listas.</p>
+            // Message for logged-out users
+            <p>
+              Faça Login ou crie uma conta para adicionar jogos às suas listas.
+            </p>
           )}
 
           {/* Additional Game Information */}
@@ -309,8 +341,10 @@ export default function GameDetails({ game, currentUser }) {
               and need the HTML formatting. Otherwise, display as plain text.
               Be cautious as this can be an XSS risk if the source is not trusted. */}
           {game.deck && (
-              <p><strong>Descrição:</strong> {game.deck}</p>
-              /* Or if description contains HTML you want rendered:
+            <p>
+              <strong>Descrição:</strong> {game.deck}
+            </p>
+            /* Or if description contains HTML you want rendered:
               <p><strong>Descrição:</strong> <span dangerouslySetInnerHTML={{ __html: game.deck }} /></p>
               */
           )}
