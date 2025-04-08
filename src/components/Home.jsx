@@ -13,7 +13,6 @@ const todasAsImagens = [
     'https://www.giantbomb.com/a/uploads/original/0/8169/2600454-81bh2nkwxxl._sl1500_.jpg',
     'https://www.giantbomb.com/a/uploads/original/20/201266/3532465-2909474649-co4jn.png',
     'https://www.giantbomb.com/a/uploads/original/33/338034/3381991-2584519888-libra.jpg',
-    'https://www.giantbomb.com/a/uploads/original/24/240391/3355540-co1rgi.png',
     'https://www.giantbomb.com/a/uploads/original/0/1992/3716946-screenshot2025-04-02at11.48.22%E2%80%AFam.png',
     'https://www.giantbomb.com/a/uploads/original/8/87790/3023792-box_ml.png',
     'https://www.giantbomb.com/a/uploads/original/20/201266/3593754-5514229e3a28.jpg',
@@ -27,7 +26,6 @@ const todasAsImagens = [
     'https://www.giantbomb.com/a/uploads/original/20/201266/3718634-berserker.jpg',
     'https://www.giantbomb.com/a/uploads/original/8/87790/3081870-box_ds3.png',
     'https://www.giantbomb.com/a/uploads/original/8/87790/3046323-box_ssdt.png',
-    'https://www.giantbomb.com/a/uploads/original/20/201266/3532465-2909474649-co4jn.png',
     'https://www.giantbomb.com/a/uploads/original/0/3699/2734931-bloodborne%20v5.jpg',
     'https://www.giantbomb.com/a/uploads/original/8/87790/2171285-box_pkmnpv.png',
     'https://www.giantbomb.com/a/uploads/original/0/976/2068104-pokemon_whack.jpg',
@@ -52,7 +50,6 @@ const todasAsImagens = [
     'https://www.giantbomb.com/a/uploads/original/8/87790/2993644-box_uch.png',
     'https://www.giantbomb.com/a/uploads/original/8/87790/2991341-box_hff.png',
     'https://www.giantbomb.com/a/uploads/original/8/87790/1331136-ccrasher_box.png',
-
 ];
 
 
