@@ -1,63 +1,62 @@
 #admin-container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  #admin-title {
-    color: #333;
-  }
-  
-  #admin-error {
-    color: red;
-  }
-  
-  #admin-refresh-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  #admin-refresh-button:hover {
-    background-color: #45a049;
-  }
-  
-  #admin-users-title,
-  #admin-records-title {
-    margin-top: 20px;
-    color: #b2fd05;
-  }
-  
-  #admin-users-table,
-  #admin-records-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  #admin-users-table th,
-  #admin-users-table td,
-  #admin-records-table th,
-  #admin-records-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  #admin-users-table th,
-  #admin-records-table th {
-    text-align: left;
-  }
-  
-  .delete-button {
-    background-color: #f44336;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .delete-button:hover {
-    background-color: #d32f2f;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+#admin-title {
+  color: #333;
+}
+
+#admin-error {
+  color: red;
+}
+
+#admin-refresh-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+#admin-refresh-button:hover {
+  background-color: #45a049;
+}
+
+#admin-users-title,
+#admin-records-title {
+  margin-top: 20px;
+  color: #b2fd05;
+}
+
+#admin-users-table,
+#admin-records-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#admin-users-table th,
+#admin-users-table td,
+#admin-records-table th,
+#admin-records-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#admin-users-table th,
+#admin-records-table th {
+  text-align: left;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}

@@ -1,35 +1,47 @@
+import { useState } from 'react';
 import "./Header.css";
 import HeaderButton from "./HeaderButton.jsx";
-export default function Header({ logado, changePage, usuario, logout }) {
+
+export default function Header({ logado, usuario, logout }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <header>
-      <p>MyPoliGame</p>
-      {logado && <p>Bem vindo {usuario}!</p>}
-      <nav>
+      <div className="header-content">
+        <div className="header-brand">
+          <p className="header-title">MyPoliGame</p>
+          {logado && <p className="welcome-message">Bem vindo {usuario}!</p>}
+        </div>
+        
+        <button 
+          className="mobile-menu-toggle" 
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
 
-        <ul>
-          <HeaderButton onSelect={() => changePage("home")}>Home</HeaderButton>
-
-          <HeaderButton onSelect={() => changePage("search")}>Jogos</HeaderButton>
-
-          <HeaderButton onSelect={() => changePage("pessoas")}>Pessoas</HeaderButton>
-
-          {usuario === "admin" && <HeaderButton onSelect={() => changePage("admin")}>Admin</HeaderButton>}
-
-          {logado && <HeaderButton onSelect={() => changePage("lista")}>Minha lista</HeaderButton>}
-
-          {!logado && <HeaderButton onSelect={() => changePage("login")}>Fazer Login</HeaderButton>}
-
-          {!logado && <HeaderButton onSelect={() => changePage("register")}>Criar Conta</HeaderButton>}
-          
-          {logado && <HeaderButton onSelect={() => {
-            logout();
-            changePage("home");
-          }}>Logout</HeaderButton>}
-
-        </ul>
-      </nav>
+        <nav className={isMobileMenuOpen ? 'open' : ''}>
+          <ul>
+            <HeaderButton to="/">Home</HeaderButton>
+            <HeaderButton to="/search">Jogos</HeaderButton>
+            <HeaderButton to="/pessoas">Pessoas</HeaderButton>
+            {usuario === "admin" && <HeaderButton to="/admin">Admin</HeaderButton>}
+            {logado && <HeaderButton to="/minha-lista">Minha lista</HeaderButton>}
+            {!logado && <HeaderButton to="/login">Fazer Login</HeaderButton>}
+            {!logado && <HeaderButton to="/register">Criar Conta</HeaderButton>}
+            {logado && <HeaderButton onClick={handleLogout}>Logout</HeaderButton>}
+          </ul>
+        </nav>
+      </div>
     </header>
   );
 }

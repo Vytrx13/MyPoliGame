@@ -1,35 +1,38 @@
+/* src/components/pessoas/Pessoas.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 .pessoas-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+  /* Adjust minmax for better wrapping */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem; /* Slightly smaller gap */
+  padding: 1rem; /* Reduced padding */
   font-family: 'Poppins', sans-serif;
 }
 
 .pessoa-card {
-  background-color: #e6f0ff; /* azul bem clarinho */
-  border-radius: 16px;
+  background-color: #e6f0ff;
+  border-radius: 12px; /* Slightly smaller radius */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 1.2rem;
+  padding: 1rem; /* Reduced padding */
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-  color: #1e2a38; /* cinza escuro azulado */
+  color: #1e2a38;
 }
 
 .pessoa-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  background-color: #c7f0db; /* verde-água claro */
-  color: #102a43; /* azul escuro sóbrio */
+  transform: scale(1.03); /* Slightly less dramatic scale */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  background-color: #c7f0db;
+  color: #102a43;
 }
 
 .pessoa-nome {
-  font-size: 1.1rem;
+  font-size: 1rem; /* Adjust size */
   font-weight: 600;
   margin: 0;
+  word-break: break-word; /* Prevent long names from overflowing */
 }
 
 .loading-message,
@@ -37,30 +40,49 @@
 .error-message {
   text-align: center;
   margin-top: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Adjust size */
   font-family: 'Poppins', sans-serif;
+  padding: 0 1rem; /* Add padding */
 }
 
-
-
 .search-bar {
-    width: 100%;
+    width: 90%; /* Make it fluid */
     max-width: 400px;
-    
-    margin: 1em auto 2rem;
+    margin: 1em auto 1.5rem; /* Adjust margins */
     display: block;
-    padding: 0.8rem 1rem;
-    border-radius: 12px;
+    padding: 0.7rem 1rem; /* Adjust padding */
+    border-radius: 10px;
     border: none;
-    font-size: 1rem;
+    font-size: 0.95rem; /* Adjust size */
     font-family: 'Poppins', sans-serif;
     background-color: #f4f6ff;
     color: #1e2a38;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease;
   }
-  
+
   .search-bar:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.4);
   }
+
+/* --- Media Query for Very Small Screens --- */
+@media (max-width: 480px) {
+    .pessoas-container {
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+    .pessoa-card {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+    .pessoa-nome {
+        font-size: 0.9rem;
+    }
+    .search-bar {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+        margin-bottom: 1rem;
+    }
+}
