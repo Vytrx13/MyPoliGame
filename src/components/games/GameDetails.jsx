@@ -250,7 +250,9 @@ export default function GameDetails({ game, currentUser }) {
                     <p className="jogo-na-lista">
                       Status atual:{" "}
                       <strong>
-                        Lista: {currentList}, Nota: {currentScore ?? "N/A"}
+                        Lista: {currentList}
+                        {currentList !== "Lista-de-desejos" &&
+                          `, Nota: ${currentScore ?? "N/A"}`}
                       </strong>
                     </p>
                   )}
@@ -301,7 +303,10 @@ export default function GameDetails({ game, currentUser }) {
                     type="submit"
                     value={jogoNaLista ? "Atualizar" : "Adicionar"}
                     className="custom-button"
-                    disabled={!selectedList || (score === "" && selectedList !== 'Lista-de-desejos')} 
+                    disabled={
+                      !selectedList ||
+                      (score === "" && selectedList !== "Lista-de-desejos")
+                    }
                   />
 
                   {/* Remove Button: Show only if the game is already in the list */}
