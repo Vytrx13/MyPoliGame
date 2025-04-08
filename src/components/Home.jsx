@@ -100,15 +100,9 @@ export default function Home({ changePage }) {
     return (
         <>
             <title>MyPoliGame - A Video Game Collection Tracker</title>
-            <div className="background">
-                <img src={game1_URL} alt="Game 1" />
-                <img src={game2_URL} alt="Game 2" />
-                <img src={game3_URL} alt="Game 3" />
-                <img src={game4_URL} alt="Game 4" />
-                <img src={game5_URL} alt="Game 5" />
-                <img src={game6_URL} alt="Game 6" />
-            </div>
-            <div style={{ height: '35vh' }}></div>
+
+            
+            {/* <div style={{ height: '10vh' }}></div> */}
             <motion.img
                 className="Logo"
                 src="./image/Logo.png"

@@ -2,37 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'); /* Added for consistency if used */
 
 /* --- Background --- */
-.background {
-  position: fixed; /* Use fixed to keep it static during scroll */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  /* Consider using a single, optimized CSS background image for performance */
-  /* background-image: url('/path/to/your/optimized-background.jpg'); */
-  background-color: #1a0a2e; /* Fallback color */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -2; /* Further back */
-  overflow: hidden;
-}
 
-/* Hide the individual img tags if using CSS background */
-.background img {
-  display: none;
-}
 
-.background::after {
-  content: "";
-  position: absolute; /* Should be absolute within the fixed parent */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.65); /* Slightly adjusted overlay */
-  z-index: -1; /* Between background and content */
-}
+
+
+
 
 /* --- General Layout & Typography --- */
 /* .App styling removed as it's likely global or in index.css */
