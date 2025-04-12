@@ -83,7 +83,6 @@ export default function GameDetails({ game, currentUser }) {
       } catch (err) {
         if (isMounted) {
           setError("Erro de rede ao verificar a lista do usuário.");
-          console.error("Check list error:", err);
           setJogoNaLista(false); // Assume not in list on network error
         }
       } finally {
@@ -165,11 +164,9 @@ export default function GameDetails({ game, currentUser }) {
               jogoNaLista ? "atualizar" : "adicionar"
             } jogo.`
         );
-        console.error("Submit error data:", errorData);
       }
     } catch (err) {
       setError("Erro de rede ao salvar na lista.");
-      console.error("Submit network error:", err);
     }
   };
 
@@ -209,11 +206,9 @@ export default function GameDetails({ game, currentUser }) {
           .json()
           .catch(() => ({ message: `HTTP error ${res.status}` }));
         setError(errorData.message || `Erro ${res.status} ao remover o jogo.`);
-        console.error("Remove error data:", errorData);
       }
     } catch (err) {
       setError("Erro de rede ao remover jogo da lista");
-      console.error("Remove network error:", err);
     }
   }
 

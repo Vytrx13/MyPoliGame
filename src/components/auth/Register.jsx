@@ -10,7 +10,6 @@ function Register({ setUser }) { // Removed changePage prop
   const register = async () => {
     setError(null); // Clear previous errors
     try {
-      console.log(username, password);
       const res = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -47,7 +46,6 @@ function Register({ setUser }) { // Removed changePage prop
       }
     } catch (err) {
       setError("Erro ao conectar ao servidor");
-      console.error(err);
     }
   };
 

@@ -27,7 +27,6 @@ export default function Pessoas({ currentUser }) {
            throw new Error(errorText || "Erro ao buscar usuários.");
         }
       } catch (err) {
-        console.error(err);
         setError(err.message || "Erro ao buscar usuários.");
       } finally {
         setIsLoading(false);
@@ -39,7 +38,6 @@ export default function Pessoas({ currentUser }) {
 
   // Function to handle clicking on a person card
   function handlePessoaSelect(username) {
-    console.log("Navigating to list for:", username);
     // Navigate to the dynamic list route for the selected user
     navigate(`/listas/${username}`);
   }

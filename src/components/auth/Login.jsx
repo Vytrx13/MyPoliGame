@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './Auth.css';
-function Login({ setUser }) { // Removed changePage prop
+function Login({ setUser }) { 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -20,7 +20,7 @@ function Login({ setUser }) { // Removed changePage prop
         const data = await res.json();
         localStorage.setItem("token", data.token);
         setUser(username);
-        // Navigate to home page after successful login
+
         navigate('/', { replace: true }); // Use replace to avoid login page in history
       } else {
         const status = res.status;
@@ -47,7 +47,6 @@ function Login({ setUser }) { // Removed changePage prop
       }
     } catch (err) {
       setError("Erro ao conectar ao servidor");
-      console.error(err);
     }
   };
 

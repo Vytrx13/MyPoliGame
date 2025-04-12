@@ -64,7 +64,6 @@ export default function Search({ currentUser }) {
 
         } catch (err) {
             setError("Erro de rede ao pesquisar jogos.");
-            console.error("Search network error:", err);
             setGames(null);
         } finally {
             setIsLoading(false);
@@ -80,7 +79,6 @@ export default function Search({ currentUser }) {
         setIsLoading(true); // Show loading for fetching details
 
         const gameId = game.id;
-        console.log("Selected game id:", gameId);
 
         try {
              const res = await fetch("/games/game-selected", {
@@ -115,7 +113,6 @@ export default function Search({ currentUser }) {
             }
         } catch (err) {
             setError("Erro de rede ao buscar detalhes do jogo.");
-            console.error("Game select network error:", err);
             setSelectedGameData(null);
             setIsGameSelected(false); // Optionally switch back
         } finally {

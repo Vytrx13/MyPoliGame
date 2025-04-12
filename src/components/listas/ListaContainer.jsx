@@ -52,7 +52,6 @@ export default function ListaContainer({
           }
         } catch (err) {
           setError("Erro de rede ao buscar jogos da lista.");
-          console.error("Fetch list games error:", err);
           setGames([]); // Set empty on error
         } finally {
           setIsLoading(false);
@@ -70,7 +69,6 @@ export default function ListaContainer({
     setIsLoading(true); // Show loading for fetching details
 
     const gameId = gameFromList.jogo_id; // Get ID from the list item
-    console.log("Selected game id from list:", gameId);
 
     try {
       // Fetch full game details using the gameId
@@ -112,7 +110,6 @@ export default function ListaContainer({
       }
     } catch (err) {
       setError("Erro de rede ao buscar detalhes do jogo.");
-      console.error("Game select from list network error:", err);
       setSelectedGameData(null);
       setIsGameSelected(false); // Go back to list view on error?
       toggleSeletorVisivel(true); // Show selector again

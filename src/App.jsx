@@ -61,7 +61,6 @@ function App() {
             logout(); // Clear invalid token
           }
         } catch (error) {
-          console.error("Error verifying token:", error);
           logout(); // Clear token on error
         }
       }
